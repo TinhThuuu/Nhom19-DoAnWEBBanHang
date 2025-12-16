@@ -2,6 +2,8 @@ import { memo } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import './style.scss'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import s1Img from 'assets/users/images/Slider/S1.jpg';
 import s2Img from 'assets/users/images/Slider/S2.jpg';
 import s3Img from 'assets/users/images/Slider/S3.jpg';
@@ -11,6 +13,14 @@ import s6Img from 'assets/users/images/Slider/S6.jpg';
 import s7Img from 'assets/users/images/Slider/S7.jpg';
 import s8Img from 'assets/users/images/Slider/S8.jpg';
 import s9Img from 'assets/users/images/Slider/S9.jpg';
+import feat1 from 'assets/users/images/Features/iphone_17_256.jpg';
+import feat2 from 'assets/users/images/Features/iphone_air256.jpg';
+import feat3 from 'assets/users/images/Features/iphone-14_128.jpg';
+import feat4 from 'assets/users/images/Features/iphone-15-plus_1__1.jpg';
+import feat5 from 'assets/users/images/Features/samsung-galaxy-s24.jpg';
+import feat6 from 'assets/users/images/Features/samsung-galaxy-z-fold-7-xanh256.jpg';
+import feat7 from 'assets/users/images/Features/SSG_S25_U12G_256G.jpg';
+
 
 
 const responsive = {
@@ -69,7 +79,69 @@ const sliderItem= [
         bgImg: s9Img,
         name:" ",
     },
-]
+];
+
+const featProducts ={
+    all:{
+        title: 'Toàn bộ',
+        products: [
+            {
+                img: feat1,
+                name: 'Sản Phẩm 0',
+                price:20000,
+            },
+            {
+                img: feat2,
+                name: 'Sản Phẩm 1',
+                price:20000,
+            },
+            {
+                img: feat3,
+                name: 'Sản Phẩm 2',
+                price:20000,
+            },
+        ]
+    },
+    SanPham1:{
+        title: 'Loai1',
+        products: [
+            {
+                img: feat4,
+                name: 'Sản Phẩm 3',
+                price:20000,
+            }
+        ]
+    },
+}
+
+const renderFeaturedProducts = (data) => {
+    const tabList=[];
+    const TabPanels=[];
+    
+    Object.keys(data).forEach((key,index)=>{
+        tabList.push(<Tab key={index}>{data[key].title}</Tab>)
+        const TabPanel=[];
+        data[key].products.forEach((item,j)=>{
+            TabPanel.push(<div key={j}>{item.name}</div>);
+        });
+        TabPanels.push(TabPanel);
+    });
+    
+
+    return (
+        <Tabs>
+            <TabList>{tabList}</TabList>
+            {
+                TabPanels.map((item,key)=>(
+                    <TabPanel key={key}>
+                        <div className='row'>
+                            {item}
+                        </div>
+                    </TabPanel>
+                ))}
+        </Tabs>
+    );
+};
 
 
 const HomePage = () => {
@@ -93,6 +165,16 @@ const HomePage = () => {
       </Carousel>
     </div>
     {/*Categories End*/}
+    {/*Feature Begin*/}
+    <div className='container'>
+        <div className='featured'>
+            <div className='section-title'>
+                <h2>Sản phẩm nổi bật</h2>
+            </div>
+            {renderFeaturedProducts(featProducts)}
+        </div>
+    </div>
+    {/*Feature End*/}
     </>
   );
 };
