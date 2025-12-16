@@ -1,11 +1,100 @@
 import { memo } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import './style.scss'
+import s1Img from 'assets/users/images/Slider/S1.jpg';
+import s2Img from 'assets/users/images/Slider/S2.jpg';
+import s3Img from 'assets/users/images/Slider/S3.jpg';
+import s4Img from 'assets/users/images/Slider/S4.jpg';
+import s5Img from 'assets/users/images/Slider/S5.jpg';
+import s6Img from 'assets/users/images/Slider/S6.jpg';
+import s7Img from 'assets/users/images/Slider/S7.jpg';
+import s8Img from 'assets/users/images/Slider/S8.jpg';
+import s9Img from 'assets/users/images/Slider/S9.jpg';
+
+
+const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+};
+
+const sliderItem= [
+    {
+        bgImg: s1Img,
+        name:" ",
+    },
+    {
+        bgImg: s2Img,
+        name:" ",
+    },
+    {
+        bgImg: s3Img,
+        name:" ",
+    },
+    {
+        bgImg: s4Img,
+        name:" ",
+    },
+    {
+        bgImg: s5Img,
+        name:" ",
+    },
+    {
+        bgImg: s6Img,
+        name:" ",
+    },
+    {
+        bgImg: s7Img,
+        name:" ",
+    },
+    {
+        bgImg: s8Img,
+        name:" ",
+    },
+    {
+        bgImg: s9Img,
+        name:" ",
+    },
+]
+
 
 const HomePage = () => {
-    return <>
-    <h1>Home page body</h1>
-
-    
+  return (
+    <>
+    {/*Categories Begin*/}
+    <div className='container container__categories_slider'>
+      <Carousel responsive={responsive} className='categories_slider'>
+        {
+            sliderItem.map((item,key)=>(
+                <div 
+                className='categories_slider_item' 
+                style={{backgroundImage:`url(${item.bgImg})`}}
+                key={key}
+                >
+                <p>{item.name}</p>
+                </div>
+            ))
+        }
+        
+      </Carousel>
+    </div>
+    {/*Categories End*/}
     </>
+  );
 };
 
 export default memo(HomePage);

@@ -1,8 +1,8 @@
 @use 'sass:map';
 @import 'theme'; 
+@import 'responsive';
 
-
-html,
+ html,
 body {
 
   margin: 0;
@@ -20,7 +20,7 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     background: transparent;
-    margin: auto;
+    margin: 0 auto;
 }
 
 .row{
@@ -32,4 +32,85 @@ body {
 .col-6{
     flex: 0 0 50%;
     max-width: 50%;
+}
+.col-lg-3{
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+.col-lg-6{
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+.col-lg-9{
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+
+.button-submit{
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 16px 30px 17px;
+    background: map.get($theme-color, "main");
+    border: none;
+    height: 46px;
+    
+
+}
+
+@include Responsive($DESKTOP){
+    .col-xl-3{
+        flex: 0 0 25%;
+        max-width: 25%;
+
+    }
+    .col-xl-6{
+        flex: 0 0 50%;
+        max-width: 50%;
+
+    }
+}
+
+@include Responsive($MEDIUM_DEVICE){
+    .col-lg-3{
+        flex: 0 0 100%;
+        max-width: 100%;
+
+    }
+}
+
+@include Responsive($TABLET_DEVICE){
+    .col-md-6{
+        flex: 0 0 50%;
+        max-width: 50%;
+
+    }
+    .col-md-12{
+        flex: 0 0 100%;
+        max-width:100%;
+
+    }
+} 
+
+@include Responsive($WIDE_MOBILE){
+    .col-sm-6{
+        flex: 0 0 50%;
+        max-width: 50%;
+
+    }
+    .col-sm-12{
+        flex: 0 0 100%;
+        max-width: 100%;
+
+    }
+}
+
+@include Responsive($SMALL_DEVICE){
+    .col-xs-12{
+        flex: 0 0 100%;
+        max-width: 100%;
+
+    }
 }
