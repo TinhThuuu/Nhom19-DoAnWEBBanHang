@@ -3,18 +3,20 @@ import './style.scss';
 import { FaSquareFacebook } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import { MdOutlineEmail } from "react-icons/md";
+import { MdEmail } from "react-icons/md";
 import { formater } from 'utils/formater';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from 'react-router-dom';
 import { ROUTERS } from 'utils/router';
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlinePhone } from "react-icons/hi";
+import { AiOutlineDownCircle } from "react-icons/ai";
+import { AiOutlineUpCircle } from "react-icons/ai";
 
 const Header = () => {
   const [isShowCategories, setShowCategories] = useState(true);
-
-  const [menus] = useState([
+  const [isShowHumberger, setShowHumberger] = useState(false);
+  const [menus, setMenus] = useState([
     {
       name: 'Trang chủ',
       path: ROUTERS.USER.HOME,
@@ -59,13 +61,95 @@ const Header = () => {
 
   return (
     <>
+      <div className={`humberger__menu__overlay ${
+        isShowHumberger ? "active" : ""}`} 
+        onClick={()=>setShowHumberger(false)}
+        />
+      <div className={`humberger__menu__wrapper ${
+        isShowHumberger ? "show" : ""}`}
+      >
+        <div className='header__logo'>
+          <h1>DT SHOP</h1>
+        </div>
+        <div className='humberger__menu__cart'>
+          <ul>
+            <li>
+              <Link to={''}>
+                <AiOutlineShoppingCart /><span>1</span>
+              </Link>
+            </li>
+          </ul>
+          <div className='header__cart__price'>
+            Giỏ hàng: <span>{formater(12983740)}</span>
+          </div>
+        </div>
+        <div className='humberger__menu__widget'>
+         <div className='header__top__right__auth'>
+           <Link to={''}>
+                <FaUserCircle /> Đăng nhập
+            </Link>
+          </div>
+        </div>
+        <div className='humberger__menu__nav'>
+          <ul>
+            {
+              menus.map((menu, menuKey)=>(
+                <li key={menuKey} to={menu.path}>
+                  <Link 
+                    to={menu.path}
+                    onClick={()=>{
+                    const newMenus=[...menus];
+                    newMenus[menuKey].isShowSubMenu = !newMenus[menuKey].isShowSubMenu;
+                    setMenus(newMenus);
+                  }}>
+                    {menu.name}
+                    {menu.child && (
+                      menu.isShowSubMenu ? (
+                        <AiOutlineDownCircle />
+                      ) : (
+                        <AiOutlineUpCircle />
+                      ))}
+                  </Link>
+                  {menu.child && (
+                    <ul className={`header__menu__dropdown ${ menu.isShowSubMenu ? "show__submenu" : "" }`}>
+                      {menu.child.map((childItem,childKey)=>(
+                        <li key={`${menuKey}-${childKey}`}>
+                          <Link to={childItem.path}>{childItem.name}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))
+            }
+
+          </ul>
+        </div>
+        <div className='header__top__right__social'>
+          <Link to={''}>
+            <FaSquareFacebook />
+          </Link>
+          <Link to={''}>
+            <IoLogoInstagram />
+          </Link>
+        </div>
+        <div className='humberger__menu__contact'>
+          <ul>
+            <li>
+              <MdEmail />tinhlv219@gmail.com
+            </li>
+            <li>Free Ship cho đơn hàng từ {formater(299000)}</li>
+          </ul>
+        </div>
+      </div>
+      
       <div className='header__top'>
         <div className='container'>
           <div className='row'>
             <div className='col-6 header__top_left'>
               <ul>
-                <li><MdOutlineEmail />tinhlv219@gmail.com</li>
-                <li>Liên hệ: ngay 24/7</li>
+                <li><MdEmail />tinhlv219@gmail.com</li>
+                <li>Free Ship cho đơn hàng từ {formater(299000)}</li>
               </ul>
 
 
@@ -92,12 +176,12 @@ const Header = () => {
       </div>
       <div className='container'>
         <div className='row'>
-          <div className='col-xl-3'>
+          <div className='col-lg-3'>
             <div className='header__logo'>
               <h1>DT SHOP</h1>
             </div>
           </div>
-          <div className='col-xl-6'>
+          <div className='col-lg-6'>
             <nav className='header__menu'>
               <ul>
                 {
@@ -120,7 +204,7 @@ const Header = () => {
               </ul>
             </nav>
           </div>
-          <div className='col-xl-3'>
+          <div className='col-lg-3'>
             <div className='header__cart'>
               <div className='header__cart_price'>
                 <span>{formater(12345670)}</span>
@@ -132,6 +216,9 @@ const Header = () => {
                   </Link>
                 </li>
               </ul>
+            </div>
+            <div className='humberger__open' >
+              <AiOutlineMenu  onClick={()=>setShowHumberger(true)}/>
             </div>
 
 

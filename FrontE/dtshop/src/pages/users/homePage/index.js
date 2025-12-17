@@ -22,8 +22,8 @@ import feat4 from 'assets/users/images/Features/iphone-15-plus_1__1.jpg';
 import feat5 from 'assets/users/images/Features/samsung-galaxy-s24.jpg';
 import feat6 from 'assets/users/images/Features/samsung-galaxy-z-fold-7-xanh256.jpg';
 import feat7 from 'assets/users/images/Features/SSG_S25_U12G_256G.jpg';
-import bann1 from 'assets/users/images/bannerB/banner1.jpg';
-import bann2 from 'assets/users/images/bannerB/banner2.jpg';
+import bann1 from 'assets/users/images/bannerB/banner1.png';
+import bann2 from 'assets/users/images/bannerB/banner2.png';
 import { Link } from 'react-router-dom';
 import { formater } from 'utils/formater';
 
