@@ -15,7 +15,7 @@ const Footer = () => {
             <div className='footer__about'>
               <h1 className='footer__about__logo'>DT SHOP</h1>
               <ul>
-                <li>Địa chỉ: 26A,ấp 1,xã An Hòa,tỉnh Đồng Tháp</li>
+                <li>Địa chỉ: 97 Man Thiện</li>
                 <li>Phone:0976580867</li>
                 <li>Email: tinhlv219@gmail.com</li>
               </ul>

@@ -128,8 +128,8 @@ const renderFeaturedProducts = (data) => {
     tabList.push(<Tab key={index}>{data[key].title}</Tab>)
     const TabPanel = [];
     data[key].products.forEach((item, j) => {
-      TabPanel.push(<div className='col-lg-3' key={j}>
-        <div className='featured_item'>
+      TabPanel.push(<div className='col-lg-3 col-md-4 col-sm-6 col-xs-12' key={j}>
+        <div className='featured_item pr-pl-10'>
           <div className='featured_item_pic'
           style={
             {
