@@ -15,17 +15,13 @@ import s6Img from 'assets/users/images/Slider/S6.jpg';
 import s7Img from 'assets/users/images/Slider/S7.jpg';
 import s8Img from 'assets/users/images/Slider/S8.jpg';
 import s9Img from 'assets/users/images/Slider/S9.jpg';
-import feat1 from 'assets/users/images/Features/iphone_17_256.jpg';
-import feat2 from 'assets/users/images/Features/iphone_air256.jpg';
-import feat3 from 'assets/users/images/Features/iphone-14_128.jpg';
-import feat4 from 'assets/users/images/Features/iphone-15-plus_1__1.jpg';
-import feat5 from 'assets/users/images/Features/samsung-galaxy-s24.jpg';
-import feat6 from 'assets/users/images/Features/samsung-galaxy-z-fold-7-xanh256.jpg';
-import feat7 from 'assets/users/images/Features/SSG_S25_U12G_256G.jpg';
 import bann1 from 'assets/users/images/bannerB/banner1.png';
 import bann2 from 'assets/users/images/bannerB/banner2.png';
 import { Link } from 'react-router-dom';
 import { formater } from 'utils/formater';
+import { ProductsCard } from 'component';
+import { featProducts } from 'utils/common';
+
 
 
 
@@ -87,38 +83,7 @@ const sliderItem = [
   },
 ];
 
-const featProducts = {
-  all: {
-    title: 'Toàn bộ',
-    products: [
-      {
-        img: feat1,
-        name: 'Sản Phẩm 0',
-        price: 20000,
-      },
-      {
-        img: feat2,
-        name: 'Sản Phẩm 1',
-        price: 20000,
-      },
-      {
-        img: feat3,
-        name: 'Sản Phẩm 2',
-        price: 20000,
-      },
-    ]
-  },
-  SanPham1: {
-    title: 'Loai1',
-    products: [
-      {
-        img: feat4,
-        name: 'Sản Phẩm 3',
-        price: 20000,
-      }
-    ]
-  },
-}
+
 
 const renderFeaturedProducts = (data) => {
   const tabList = [];
@@ -129,28 +94,7 @@ const renderFeaturedProducts = (data) => {
     const TabPanel = [];
     data[key].products.forEach((item, j) => {
       TabPanel.push(<div className='col-lg-3 col-md-4 col-sm-6 col-xs-12' key={j}>
-        <div className='featured_item pr-pl-10'>
-          <div className='featured_item_pic'
-          style={
-            {
-              backgroundImage:`url(${item.img})`
-            }}>
-            <ul className='featured_item_pic_hover'>
-              <li>
-                <AiOutlineEye />
-              </li>
-              <li>
-                <AiOutlineShoppingCart />
-              </li>
-            </ul>
-          </div>
-          <div className='featured_item_text'>
-            <h6>
-              <Link to=''>{item.name}</Link>
-            </h6>
-            <h5>{formater(item.price)}</h5>
-          </div>
-        </div>
+        <ProductsCard name={item.name} img={item.img} price={item.price}/>
       </div>);
     });
     TabPanels.push(TabPanel);

@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import './style.scss';
 import { FaSquareFacebook } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io";
@@ -6,16 +6,28 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { formater } from 'utils/formater';
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { ROUTERS } from 'utils/router';
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlinePhone } from "react-icons/hi";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { AiOutlineUpCircle } from "react-icons/ai";
 
+export const categories=[
+    "Sản phẩm 1",
+    "Sản phẩm 2",
+    "Sản phẩm 3",
+    "Sản phẩm 4",
+    "Sản phẩm 5",
+    "Sản phẩm 6"
+  ];
+
 const Header = () => {
-  const [isShowCategories, setShowCategories] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isShowHumberger, setShowHumberger] = useState(false);
+  const [isHome, setIsHome] = useState(location.pathname.length <= 1);
+  const [isShowCategories, setShowCategories] = useState(isHome);
   const [menus, setMenus] = useState([
     {
       name: 'Trang chủ',
@@ -26,7 +38,7 @@ const Header = () => {
       path: ROUTERS.USER.PRODUCTS,
     },
     {
-      name: 'San pham',
+      name: 'Sản phẩm',
       path: '',
       isShowSubMenu: false,
       child: [
@@ -50,14 +62,22 @@ const Header = () => {
 
     },
     {
-      name: 'Bai viet',
+      name: 'Bài viết',
       path: '',
     },
     {
-      name: 'Lien he',
+      name: 'Liên hệ',
       path: '',
     },
-  ])
+  ]);
+  
+
+  useEffect(() => {
+    const isHome = location.pathname.length <= 1;
+    setIsHome(isHome);
+    setShowCategories(isHome);
+  }, [location]);
+
 
   return (
     <>
@@ -165,8 +185,8 @@ const Header = () => {
                 </li>
                 <li>
                   <IoLogoInstagram />
-                </li>
-                <li>
+                </li> 
+                <li onClick={() => navigate(ROUTERS.ADMIN.LOGIN)}>
                   <span><FaUserCircle />Đăng nhập</span>
                 </li>
               </ul>
@@ -211,7 +231,7 @@ const Header = () => {
               </div>
               <ul>
                 <li>
-                  <Link to="#">
+                  <Link to={ROUTERS.USER.SHOPPING_CART}>
                     <AiOutlineShoppingCart /><span>5</span>
                   </Link>
                 </li>
@@ -232,29 +252,14 @@ const Header = () => {
               <AiOutlineMenu />
               Danh sách sản phẩm
             </div>
-            {isShowCategories && (
-              <ul>
-              <li>
-                <Link to="#">Sản phẩm 1</Link>
-              </li>
-              <li>
-                <Link to="#">Sản phẩm 2</Link>
-              </li>
-              <li>
-                <Link to="#">Sản phẩm 3</Link>
-              </li>
-              <li>
-                <Link to="#">Sản phẩm 4</Link>
-              </li>
-              <li>
-                <Link to="#">Sản phẩm 5</Link>
-              </li>
-              <li>
-                <Link to="#">Sản phẩm 6</Link>
-              </li>
-            </ul>
-            )
-            }
+              <ul className={isShowCategories ? "" : "hidden"}>
+                  {
+                    categories.map((category,key) => (
+                      <li key={key}>
+                        <Link to={ROUTERS.USER.PRODUCTS}>{category}</Link>
+                      </li>
+                    ))}
+              </ul>
           </div>
           <div className='col-lg-9  col-md-12 col-sm-12 col-xs-12 hero__search_container'>
             <div className='hero__search'>
@@ -274,19 +279,23 @@ const Header = () => {
                </div>
               </div>
             </div>
-            <div className='hero__item'>
-              <div className='hero__text'>
-                <span>Khuyến mãi hot!!!</span>
-                <h2>
-                  Săn Táo <br />
-                  Giá Sốc
-                </h2>
-                <p>Bảo hành 1 đổi 1 trong 12 tháng</p>
-                <Link to='#' className='primary-btn'>Mua ngay</Link>
+            {
+              isHome && (
 
+               <div className='hero__item'>
+                <div className='hero__text'>
+                  <span>Khuyến mãi hot!!!</span>
+                  <h2>
+                    Săn Táo <br />
+                    Giá Sốc
+                  </h2>
+                  <p>Bảo hành 1 đổi 1 trong 12 tháng</p>
+                  <Link to='#' className='primary-btn'>Mua ngay</Link>
+
+                </div>
               </div>
-
-            </div>
+              )
+            }
           </div>
         </div>
       </div>
