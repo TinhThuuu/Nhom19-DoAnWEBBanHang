@@ -8,7 +8,7 @@ import { ROUTERS } from "utils/router";
 
 
 
-const ProductsCard = ({img, name, price }) => {
+const ProductsCard = ({ product }) => {
   return (
     <>
 
@@ -16,7 +16,7 @@ const ProductsCard = ({img, name, price }) => {
           <div
             className="featured_item_pic"
             style={{
-              backgroundImage: `url(${img})`,
+              backgroundImage: `url(${generatePath(product.img)})`,
             }}
           >
             <ul className="featured_item_pic_hover">
@@ -30,9 +30,9 @@ const ProductsCard = ({img, name, price }) => {
           </div>
           <div className="featured_item_text">
             <h6>
-              <Link to={generatePath(ROUTERS.USER.PRODUCT,{id : 1})}>{name}</Link>
+              <Link to={generatePath(ROUTERS.USER.PRODUCT,{id:product.id})}>{product.name}</Link>
             </h6>
-            <h5>{formater(price)}</h5>
+            <h5>{formater(product.price)}</h5>
           </div>
         </div>
     </>

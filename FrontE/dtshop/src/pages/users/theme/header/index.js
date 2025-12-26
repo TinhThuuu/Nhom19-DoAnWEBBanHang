@@ -12,8 +12,11 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlinePhone } from "react-icons/hi";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { AiOutlineUpCircle } from "react-icons/ai";
+import { useGetCategoriesUS } from "api/homePage";
 
-export const categories=[
+
+
+export const categoriesHardCode = [
     "Sản phẩm 1",
     "Sản phẩm 2",
     "Sản phẩm 3",
@@ -21,6 +24,7 @@ export const categories=[
     "Sản phẩm 5",
     "Sản phẩm 6"
   ];
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -78,6 +82,7 @@ const Header = () => {
     setShowCategories(isHome);
   }, [location]);
 
+  const { data: categories } = useGetCategoriesUS();
 
   return (
     <>
@@ -254,9 +259,9 @@ const Header = () => {
             </div>
               <ul className={isShowCategories ? "" : "hidden"}>
                   {
-                    categories.map((category,key) => (
-                      <li key={key}>
-                        <Link to={ROUTERS.USER.PRODUCTS}>{category}</Link>
+                    categories?.map((category) => (
+                      <li key={category.id}>
+                        <Link to={ROUTERS.USER.PRODUCTS}>{category.name}</Link>
                       </li>
                     ))}
               </ul>

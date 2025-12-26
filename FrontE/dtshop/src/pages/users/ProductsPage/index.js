@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Breadcrumb from '../theme/breadcrumb';
 import "./style.scss"
-import { categories } from '../theme/header';
+import { categoriesHardCode } from '../theme/header';
 import { ROUTERS } from 'utils/router';
 import { Link } from 'react-router-dom';
 import { ProductsCard } from 'component';
@@ -101,7 +101,7 @@ const ProductsPage = () => {
             <div className="sidebar__item">
                 <h2>Thể loại khác</h2>
                 <ul>
-                  {categories.map((name,key)=>(
+                  {categoriesHardCode.map((name,key)=>(
                    <li key ={key}>
                     <Link to={ROUTERS.USER.PRODUCTS}>{name}</Link>
                   </li> 

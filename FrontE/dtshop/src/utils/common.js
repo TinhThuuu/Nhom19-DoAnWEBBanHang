@@ -79,3 +79,8 @@ export const featProducts = {
     ]
   },
 }
+
+export const optionsUseQuery = {
+  retry: 0,
+  refetchOnWindowFocus: false,
+};
