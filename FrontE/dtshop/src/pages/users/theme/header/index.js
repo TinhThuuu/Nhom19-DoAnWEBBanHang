@@ -1,4 +1,5 @@
 import { memo, useState, useEffect } from 'react';
+import { ReactSession } from "react-client-session";
 import './style.scss';
 import { FaSquareFacebook } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io";
@@ -13,7 +14,9 @@ import { HiOutlinePhone } from "react-icons/hi";
 import { AiOutlineDownCircle } from "react-icons/ai";
 import { AiOutlineUpCircle } from "react-icons/ai";
 import { useGetCategoriesUS } from "api/homePage";
-
+import { useDispatch, useSelector } from "react-redux";
+import { SESSION_KEYS } from "utils/constant";
+import { setCart } from "../../../../redux/commonSlide";
 
 
 export const categoriesHardCode = [
@@ -27,11 +30,13 @@ export const categoriesHardCode = [
 
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [isShowHumberger, setShowHumberger] = useState(false);
   const [isHome, setIsHome] = useState(location.pathname.length <= 1);
   const [isShowCategories, setShowCategories] = useState(isHome);
+  const { cart: cartRedux } = useSelector((state) => state.commonSlide);
   const [menus, setMenus] = useState([
     {
       name: 'Trang chủ',
@@ -73,6 +78,8 @@ const Header = () => {
       name: 'Liên hệ',
       path: '',
     },
+  
+  
   ]);
   
 
@@ -83,6 +90,14 @@ const Header = () => {
   }, [location]);
 
   const { data: categories } = useGetCategoriesUS();
+
+  useEffect(() => {
+    const cart = ReactSession.get(SESSION_KEYS.CART);
+
+    if (cart) {
+      dispatch(setCart(cart));
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -99,13 +114,13 @@ const Header = () => {
         <div className='humberger__menu__cart'>
           <ul>
             <li>
-              <Link to={''}>
-                <AiOutlineShoppingCart /><span>1</span>
+              <Link to={ROUTERS.USER.SHOPPING_CART}>
+                <AiOutlineShoppingCart /><span>{cartRedux.totalQuantity}</span>
               </Link>
             </li>
           </ul>
           <div className='header__cart__price'>
-            Giỏ hàng: <span>{formater(12983740)}</span>
+            Giỏ hàng: <span>{formater(cartRedux.totalPrice)}</span>
           </div>
         </div>
         <div className='humberger__menu__widget'>
@@ -232,12 +247,12 @@ const Header = () => {
           <div className='col-lg-3'>
             <div className='header__cart'>
               <div className='header__cart_price'>
-                <span>{formater(12345670)}</span>
+                <span>{formater(cartRedux.totalPrice)}</span>
               </div>
               <ul>
                 <li>
                   <Link to={ROUTERS.USER.SHOPPING_CART}>
-                    <AiOutlineShoppingCart /><span>5</span>
+                    <AiOutlineShoppingCart /><span>{cartRedux.totalQuantity}</span>
                   </Link>
                 </li>
               </ul>

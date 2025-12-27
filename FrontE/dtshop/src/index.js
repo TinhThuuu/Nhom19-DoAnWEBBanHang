@@ -5,6 +5,8 @@ import RouterCustom from "./router";
 import "./styles/style.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactSession } from "react-client-session";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -12,9 +14,11 @@ const queryClient = new QueryClient();
 ReactSession.setStoreType("sessionStorage");
 
 root.render(
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <RouterCustom />
-    </BrowserRouter>
-  </QueryClientProvider>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <RouterCustom />
+      </BrowserRouter>
+    </QueryClientProvider>
+  </Provider>
 );

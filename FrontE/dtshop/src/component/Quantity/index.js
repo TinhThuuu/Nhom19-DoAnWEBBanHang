@@ -37,7 +37,7 @@ const Quantity = ({ hasAddToCart = true, product, initQuantity }) => {
             console.log(curCart);
           }}
         >
-          Thêm vào giỏ hàng
+          Thêm vào giỏ hàng
         </button>
       )}
     </div>
