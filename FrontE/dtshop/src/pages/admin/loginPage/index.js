@@ -1,5 +1,7 @@
 import { memo, useState } from "react";
 import "./style.scss";
+import { useMutation } from "@tanstack/react-query";
+import { postLoginAPI } from "api/loginPage";
 // import { useNavigate } from "react-router-dom";
 // import { ROUTERS } from "utils/router";
 
@@ -9,6 +11,18 @@ const LoginAdPage = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const { mutate: login, isLoading } = useMutation({
+    mutationFn: postLoginAPI,
+
+    onSuccess: (data) => {
+      console.log("Login successful:", data);
+    },
+
+    onError: (error) => {
+      alert(error.response?.data?.error);
+    },
+  });
 
   const validateForm = () => {
     let isValid = true;
@@ -31,13 +45,11 @@ const LoginAdPage = () => {
     return isValid;
   };
 
-  const hanldeSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // navigate(ROUTERS.ADMIN.ORDERS);
     if (validateForm()) {
-      console.log(email, password);
-    } else {
-      console.log("Validation failed");
+      login({ email, password });
     }
   };
 
@@ -46,7 +58,7 @@ const LoginAdPage = () => {
       <div className="login__container">
         <h2 className="login__title">TRUY CẬP HỆ THỐNG QUẢN TRỊ</h2>
         {/* Form login */}
-        <form className="login__form" onSubmit={hanldeSubmit}>
+        <form className="login__form" onSubmit={handleSubmit}>
           <div className="login__form-group">
             <label htmlFor="email" className="login__label">
               Địa chỉ email
@@ -73,7 +85,7 @@ const LoginAdPage = () => {
             />
             {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
-          <button type="submit" className="login__button">
+          <button type="submit" className="login__button" disabled={isLoading}>
             ĐĂNG NHẬP
           </button>
         </form>

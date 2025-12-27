@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -15,3 +16,5 @@ Route::prefix('')->group(function () {
     Route::resources(['products' => ProductController::class]);
     Route::post('/order', [OrderController::class, 'create']);
 });
+
+Route::post('/login', [AuthController::class, 'login']);
