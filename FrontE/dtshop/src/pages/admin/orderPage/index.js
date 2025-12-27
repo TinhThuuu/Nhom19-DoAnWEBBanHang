@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import "./style.scss";
 import { formater } from "utils/formater";
+import { getOrdersAPI, updateOrderStatusAPI } from "api/orderPage";
 
 const STATUS = {
   ORDERED: {
@@ -26,22 +27,7 @@ const STATUS = {
 };
 
 const OrderPageAdPage = () => {
-  const orders = [
-    {
-      id: 1,
-      total: 2000000,
-      customerName: "John 1",
-      date: "11/12/2025",
-      status: "Đang lên đơn",
-    },
-    {
-      id: 2,
-      total: 2000000,
-      customerName: "John 2",
-      date: "10/12/2025",
-      status: "Đang lên đơn",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
   const [activedDropdown, setActivedDropdown] = useState(null);
 
   useEffect(() => {
@@ -54,6 +40,21 @@ const OrderPageAdPage = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await getOrdersAPI();
+        // axios interceptor returns response.data, backend returns { data: [...] }
+        const data = res?.data || [];
+        setOrders(data);
+      } catch (err) {
+        console.error('Failed to fetch orders', err);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   return (
@@ -87,7 +88,7 @@ const OrderPageAdPage = () => {
                         className={`orders__action-buton`}
                         onClick={() => setActivedDropdown(item.id)}
                       >
-                        Đã đặt
+                        {Object.values(STATUS).find(s => s.key === item.status)?.label || item.status}
                         <span className="arrow">▽</span>
                       </button>
                       {activedDropdown === item.id && (
@@ -96,7 +97,16 @@ const OrderPageAdPage = () => {
                             <button
                               key={status.key}
                               className={status.className}
-                              onClick={() => setActivedDropdown(null)}
+                              onClick={async () => {
+                                try {
+                                  await updateOrderStatusAPI(item.id, status.key);
+                                  setOrders((prev) => prev.map((o) => o.id === item.id ? { ...o, status: status.key } : o));
+                                } catch (err) {
+                                  console.error('Update status failed', err);
+                                } finally {
+                                  setActivedDropdown(null);
+                                }
+                              }}
                             >
                               {status.label}
                             </button>

@@ -2,8 +2,8 @@ import { memo, useState } from "react";
 import "./style.scss";
 import { useMutation } from "@tanstack/react-query";
 import { postLoginAPI } from "api/loginPage";
-// import { useNavigate } from "react-router-dom";
-// import { ROUTERS } from "utils/router";
+import { useNavigate } from "react-router-dom";
+import { ROUTERS } from "utils/router";
 
 const LoginAdPage = () => {
   // const navigate = useNavigate();
@@ -12,11 +12,17 @@ const LoginAdPage = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const navigate = useNavigate();
+
   const { mutate: login, isLoading } = useMutation({
     mutationFn: postLoginAPI,
 
     onSuccess: (data) => {
-      console.log("Login successful:", data);
+      if (data.is_admin) {
+        navigate(ROUTERS.ADMIN.ORDERS);
+      } else {
+        alert('Không có quyền truy cập hệ thống quản trị');
+      }
     },
 
     onError: (error) => {

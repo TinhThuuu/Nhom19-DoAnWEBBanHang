@@ -91,6 +91,8 @@ const Header = () => {
 
   const { data: categories } = useGetCategoriesUS();
 
+  const userSession = ReactSession.get(SESSION_KEYS.USER);
+
   useEffect(() => {
     const cart = ReactSession.get(SESSION_KEYS.CART);
 
@@ -125,9 +127,15 @@ const Header = () => {
         </div>
         <div className='humberger__menu__widget'>
          <div className='header__top__right__auth'>
-           <Link to={''}>
-                <FaUserCircle /> Đăng nhập
-            </Link>
+           {userSession ? (
+             <Link to={ROUTERS.USER.PROFILE}>
+               <FaUserCircle /> {userSession.name}
+             </Link>
+           ) : (
+             <span onClick={() => navigate(ROUTERS.USER.LOGIN)}>
+               <FaUserCircle /> Đăng nhập
+             </span>
+           )}
           </div>
         </div>
         <div className='humberger__menu__nav'>
@@ -206,8 +214,12 @@ const Header = () => {
                 <li>
                   <IoLogoInstagram />
                 </li> 
-                <li onClick={() => navigate(ROUTERS.ADMIN.LOGIN)}>
-                  <span><FaUserCircle />Đăng nhập</span>
+                <li>
+                  {userSession ? (
+                    <span onClick={() => navigate(ROUTERS.USER.PROFILE)}><FaUserCircle /> {userSession.name}</span>
+                  ) : (
+                    <span onClick={() => navigate(ROUTERS.USER.LOGIN)}><FaUserCircle />Đăng nhập</span>
+                  )}
                 </li>
               </ul>
             </div>

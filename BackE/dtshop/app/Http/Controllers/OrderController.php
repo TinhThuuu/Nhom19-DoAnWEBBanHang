@@ -54,4 +54,79 @@ class OrderController extends Controller
            return response()->json(['error' => 'Unable to create order', 'message' => $e->getMessage()], 500);
        }
     }
+
+    /**
+     * Return list of orders with totals and customer info
+     */
+    public function index()
+    {
+        $query = Order::with('details.product')->orderBy('created_at', 'desc');
+
+        // optional filter by email
+        if (request()->has('email')) {
+            $email = request()->get('email');
+            $query->where('email', $email);
+        }
+
+        $orders = $query->get();
+
+        $result = $orders->map(function ($order) {
+            $total = 0;
+            foreach ($order->details as $d) {
+                $price = $d->product? $d->product->price : 0;
+                $total += ($price * $d->quantity);
+            }
+
+            return [
+                'id' => $order->id,
+                'total' => $total,
+                'customerName' => $order->fullName,
+                'email' => $order->email,
+                'phone' => $order->phone,
+                'address' => $order->address,
+                'note' => $order->note,
+                'date' => $order->created_at->toDateTimeString(),
+                'status' => $order->status,
+                'items' => $order->details->map(function($d){
+                    return [
+                        'productId' => $d->product_id,
+                        'productName' => $d->product? $d->product->name : null,
+                        'quantity' => $d->quantity,
+                        'price' => $d->product? $d->product->price : 0,
+                    ];
+                }),
+            ];
+        });
+
+        return response()->json(['data' => $result], 200);
+    }
+
+    /**
+     * Update order status
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        $allowed = ['ORDERED','PREPARING','DILIVERED','CANCELLED'];
+        $status = strtoupper($request->input('status'));
+        if (!in_array($status, $allowed)) {
+            return response()->json(['error' => 'Invalid status'], 400);
+        }
+
+        $order = Order::find($id);
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        $order->status = $status;
+        $order->save();
+
+        return response()->json(['data' => [
+            'id' => $order->id,
+            'status' => $order->status
+        ]], 200);
+    }
 }

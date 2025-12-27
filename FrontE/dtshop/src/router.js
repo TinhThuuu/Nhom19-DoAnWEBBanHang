@@ -8,6 +8,7 @@ import ProductsPage from "pages/users/ProductsPage";
 import ProductDetailPage from "pages/users/ProductDetailPage";
 import ShoppingCartPage from "pages/users/shoppingCartPage";
 import CheckoutPage from "pages/users/checkOutPage";
+import AuthPage from "pages/users/auth";
 import LoginAdPage from "pages/admin/loginPage";
 import MasterAdLayout from "pages/admin/theme/masterAdLayout";
 import OrderPageAdPage from "pages/admin/orderPage";
@@ -39,6 +40,14 @@ const renderUserRouter = () => {
         {
             path: ROUTERS.USER.CHECKOUT,
             component: <CheckoutPage />,
+        },
+        {
+          path: ROUTERS.USER.LOGIN,
+          component: <AuthPage />,
+        },
+        {
+          path: ROUTERS.USER.REGISTER,
+          component: <AuthPage />,
         },
     ];
 

@@ -5,6 +5,8 @@ export const ROUTERS = {
     USER: {
         HOME: "",
         PROFILE:"profile",
+        LOGIN: "dang-nhap",
+        REGISTER: "dang-ky",
         PRODUCTS: "/san-pham",
         PRODUCT: "/san-pham/chi-tiet/:id",
         SHOPPING_CART: "/gio-hang",
