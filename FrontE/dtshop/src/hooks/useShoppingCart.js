@@ -22,7 +22,7 @@ const useShoppingCart = () => {
     }, 0);
 
     const newCart = {
-      totalQantity: products.length,
+      totalQuantity: products.length,
       totalPrice,
       products,
     };
@@ -31,7 +31,30 @@ const useShoppingCart = () => {
     alert("Đã thêm sản phẩm vào giỏ hàng!");
   };
 
-  return { addToCart };
+  const removeCart = (id) => {
+    const cart = ReactSession.get(SESSION_KEYS.CART);
+    if (window.confirm("Bạn có chắc chắn muốn xóa khỏi giỏ hàng?")) {
+      const { product, quantity } = cart.products.find(
+        ({ product }) => product.id === id
+      );
+
+      const totalPrice = cart.totalPrice - quantity * product.price;
+      const products = cart.products.filter(({ product }) => product.id !== id);
+
+      const newCart = {
+        totalQuantity: cart.totalQuantity - 1,
+        totalPrice,
+        products,
+      };
+
+      ReactSession.set(SESSION_KEYS.CART, newCart);
+      return newCart;
+    }
+
+    return cart;
+  };
+
+  return { addToCart, removeCart };
 };
 
 export default useShoppingCart;

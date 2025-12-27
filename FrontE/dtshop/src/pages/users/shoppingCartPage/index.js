@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "utils/router";
 import { ReactSession } from "react-client-session";
 import { SESSION_KEYS } from "utils/constant";
+import useShoppingCart from "hooks/useShoppingCart";
 
 const ShoppingCartPage = () => {
   const navigate = useNavigate();
+  const { removeCart } = useShoppingCart();
   const [cart, setCart] = useState(ReactSession.get(SESSION_KEYS.CART));
 
   return (
@@ -41,9 +43,7 @@ const ShoppingCartPage = () => {
                   </td>
                   <td>{formater(product.price * quantity)}</td>
                 <td className="icon_close"
-                    onClick={() => {
-                      console.log(product.id);
-                    }}>
+                    onClick={() => setCart(removeCart(product.id))}>
                   <AiOutlineClose />
                 </td>
               </tr>
@@ -65,8 +65,8 @@ const ShoppingCartPage = () => {
             <div className="shopping__checkout">
               <h2>Tổng đơn:</h2>
               <ul>
-                <li>Số lượng: <span>{2}</span></li>
-                <li>Thành tiền: <span>{formater(200000)}</span></li>
+                <li>Số lượng: <span>{cart.totalQuantity}</span></li>
+                <li>Thành tiền: <span>{formater(cart.totalPrice)}</span></li>
               </ul>
               <button type="button" className="button-submit" onClick={() => navigate(ROUTERS.USER.CHECKOUT)}>
                 Thanh toán
