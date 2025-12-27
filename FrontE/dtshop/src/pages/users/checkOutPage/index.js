@@ -4,9 +4,23 @@ import Breadcrumb from "../theme/breadcrumb";
 import "./style.scss";
 import { ReactSession } from "react-client-session";
 import { SESSION_KEYS } from "utils/constant";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { ROUTERS } from "utils/router";
+import { postOrderAPI } from "api/orderPage";
 
 const CheckoutPage = () => {
-  const cart = ReactSession.get(SESSION_KEYS.CART);
+  const navigate = useNavigate();
+  const cart = ReactSession.get(SESSION_KEYS.CART) || { products: [], totalPrice: 0 };
+
+  const { mutate: postOrder } = useMutation({
+    mutationFn: postOrderAPI,
+    onSuccess: () => {
+      alert("Đặt hàng thành công");
+      ReactSession.remove(SESSION_KEYS.CART);
+      navigate(ROUTERS.USER.HOME);
+    },
+  });
 
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
@@ -54,7 +68,18 @@ const CheckoutPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("OK");
+      postOrder({
+        fullName,
+        address,
+        phone,
+        email,
+        note,
+        products: cart.products.map(({ product, quantity }) => ({
+          productId: product.id,
+          quantity,
+        })),
+      });
+
       setErrors({
         fullName: "",
         address: "",

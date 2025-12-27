@@ -6,7 +6,7 @@ export const useGetCategoriesUS = (option) => {
   return useQuery({
     queryKey: ["GetCategoriesAPI"],
     queryFn: () => getCategoriesAPI(),
-    optionsUseQuery,
+    ...optionsUseQuery,
     ...option,
   });
 };
@@ -15,7 +15,7 @@ export const useGetProductsUS = (option) => {
   return useQuery({
     queryKey: ["GetProductsAPI"],
     queryFn: () => getProductsAPI(),
-    optionsUseQuery,
+    ...optionsUseQuery,
     ...option,
   });
 };

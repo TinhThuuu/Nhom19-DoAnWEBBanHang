@@ -96,7 +96,7 @@ const HomePage = () => {
     categories?.forEach((category) => {
       tabPanels.push(
         products
-          ?.filter((product) => product.category_id === category.id)
+          ?.filter((product) => Number(product.category_id) === Number(category.id))
           .map((product) => (
             <div
               className="col-lg-3 col-md-4 col-sm-6 col-xs-12"
