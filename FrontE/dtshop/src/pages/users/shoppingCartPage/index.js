@@ -1,14 +1,17 @@
 import { Quantity } from "component";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { formater } from "utils/formater";
 import Breadcrumb from "../theme/breadcrumb";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import { ROUTERS } from "utils/router";
+import { ReactSession } from "react-client-session";
+import { SESSION_KEYS } from "utils/constant";
 
 const ShoppingCartPage = () => {
   const navigate = useNavigate();
+  const [cart, setCart] = useState(ReactSession.get(SESSION_KEYS.CART));
 
   return (
     <>
@@ -26,21 +29,25 @@ const ShoppingCartPage = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
+              {cart?.products.map(({ product, quantity }, key) => (
+              <tr key={key}>
                 <td className="shopping__cart__item">
-                  <img
-                    src="https://via.placeholder.com/50"
-                    alt="product-pic"
-                  />
-                  <h4>Tên sản phẩm 1</h4>
+                  <img src={product.img} alt="product-pic" />
+                  <h4>{product.name}</h4>
                 </td>
-                <td>{formater(200000)}</td>
-                <td><Quantity quantity="2" hasAddToCart={false} /></td>
-                <td>{formater(400000)}</td>
-                <td className="icon_close">
+                <td>{formater(product.price)}</td>
+                <td>
+                  <Quantity initQuantity={quantity} hasAddToCart={false} />
+                  </td>
+                  <td>{formater(product.price * quantity)}</td>
+                <td className="icon_close"
+                    onClick={() => {
+                      console.log(product.id);
+                    }}>
                   <AiOutlineClose />
                 </td>
               </tr>
+              ))}
             </tbody>
           </table>
         </div>

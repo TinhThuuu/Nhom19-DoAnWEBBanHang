@@ -12,36 +12,43 @@ export const featProducts = {
     title: 'Toàn bộ',
     products: [
       {
+        id: 1,
         img: feat1,
         name: 'Sản Phẩm 0',
         price: 20000,
       },
       {
+        id: 2,
         img: feat2,
         name: 'Sản Phẩm 1',
         price: 20000,
       },
       {
+        id: 3,
         img: feat3,
         name: 'Sản Phẩm 2',
         price: 20000,
       },
       {
+        id: 4,
         img: feat4,
         name: 'Sản Phẩm 3',
         price: 20000,
       },
       {
+        id: 5,
         img: feat5,
         name: 'Sản Phẩm 4',
         price: 20000,
       },
       {
+        id: 6,
         img: feat6,
         name: 'Sản Phẩm 5',
         price: 20000,
       },
       {
+        id: 7,
         img: feat7,
         name: 'Sản Phẩm 6',
         price: 20000,
@@ -52,11 +59,13 @@ export const featProducts = {
     title: 'Loai1',
     products: [
       {
+        id: 8,
         img: feat4,
         name: 'Sản Phẩm 3',
         price: 20000,
       },
       {
+        id: 9,
         img: feat5,
         name: 'Sản Phẩm 4',
         price: 20000,
@@ -67,11 +76,13 @@ export const featProducts = {
     title: 'Loai2',
     products: [
       {
+        id: 10,
         img: feat6,
         name: 'Sản Phẩm 5',
         price: 20000,
       },
       {
+        id: 11,
         img: feat7,
         name: 'Sản Phẩm 6',
         price: 20000,

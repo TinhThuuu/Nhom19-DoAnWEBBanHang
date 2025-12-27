@@ -93,7 +93,7 @@ class ProductSeeder extends Seeder
                 'price'=> 200000,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 1
@@ -104,7 +104,7 @@ class ProductSeeder extends Seeder
                 'price'=> 17800,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 2
@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
                 'price'=> 25000,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 2
@@ -126,7 +126,7 @@ class ProductSeeder extends Seeder
                 'price'=> 44020,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 2
@@ -137,7 +137,7 @@ class ProductSeeder extends Seeder
                 'price'=> 120000,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 2
@@ -148,7 +148,7 @@ class ProductSeeder extends Seeder
                 'price'=> 86000,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 3
@@ -159,7 +159,7 @@ class ProductSeeder extends Seeder
                 'price'=> 69000,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 2
@@ -170,7 +170,7 @@ class ProductSeeder extends Seeder
                 'price'=> 53000,
                 'inventory'=> 20,
                 'description'=> $desc,
-                'sort_description'=> 'SiVi SHOP là một trong những hệ thống cửa hàng hoa quả nhập khẩu ở Đà Nẵng cung cấp cho quý khách những trái dưa lưới Egardentươi ngon nhất cũng như các loại hoa quả nhập khẩu, hoa quả vùng miền khác.',
+                'sort_description'=> 'DT SHOP là một trong những hệ thống cửa hàng Blabla nhập khẩu ở nước ngoài cung cấp cho quý khách những trái Blabla Egardentươi ngon nhất cũng như các loại Blabla nhập khẩu, Blabla vùng miền khác.',
                 'facebook'=> '123',
                 'linkedin'=> '123',
                 'category_id' => 2

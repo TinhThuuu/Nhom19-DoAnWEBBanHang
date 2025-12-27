@@ -27,36 +27,43 @@ const ProductsPage = () => {
 
   const products =[
     {
+      id: 1,
       img: feat1,
       name: "iPhone 17 256GB",
       price: 32990000,
     },
     {
+      id: 2,
       img: feat2,
       name: "iPhone Air 256GB",
       price: 28990000,
     },
     {
+      id: 3,
       img: feat3,
       name: "iPhone 14 128GB",
       price: 16990000,
     },
     {
+      id: 4,
       img: feat4,
       name: "iPhone 15 Plus 128GB",
       price: 22990000,
     },
     {
+      id: 5,
       img: feat5,
       name: "Samsung Galaxy S24",
       price: 20990000,
     },
     {
+      id: 6,
       img: feat6,
       name: "Samsung Galaxy Z Fold 7 256GB",
       price: 44990000,
     },
     {
+      id: 7,
       img: feat7,
       name: "Samsung Galaxy S25 Ultra 12GB/256GB",
       price: 33990000,
@@ -116,8 +123,7 @@ const ProductsPage = () => {
             <div className='row'>
               {products.map((item,key)=>(
                 <div className='col-lg-4 col-md-4 col-sm-6 col-xs-12' key={key}>
-                  <ProductsCard
-                     name={item.name} img={item.img} price={item.price}/>
+                  <ProductsCard product={item} />
                 </div>
                 ))}
             </div>
