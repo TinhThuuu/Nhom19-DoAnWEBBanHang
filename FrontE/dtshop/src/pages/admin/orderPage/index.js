@@ -46,7 +46,6 @@ const OrderPageAdPage = () => {
     const fetchOrders = async () => {
       try {
         const res = await getOrdersAPI();
-        // axios interceptor returns response.data, backend returns { data: [...] }
         const data = res?.data || [];
         setOrders(data);
       } catch (err) {

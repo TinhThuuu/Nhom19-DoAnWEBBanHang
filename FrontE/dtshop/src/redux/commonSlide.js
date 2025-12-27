@@ -6,6 +6,7 @@ const initialState = {
     totalPrice: 0,
     totalQuantity: 0,
   },
+  searchQuery: "",
 };
 
 const commonSlide = createSlice({
@@ -15,9 +16,12 @@ const commonSlide = createSlice({
     setCart: (state, action) => {
       state.cart = action.payload;
     },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
   },
 });
 
-export const { setCart } = commonSlide.actions;
+export const { setCart, setSearchQuery } = commonSlide.actions;
 
 export default commonSlide.reducer;

@@ -15,6 +15,7 @@ import { AiOutlineDownCircle } from "react-icons/ai";
 import { AiOutlineUpCircle } from "react-icons/ai";
 import { useGetCategoriesUS } from "api/homePage";
 import { useDispatch, useSelector } from "react-redux";
+import { setSearchQuery } from "../../../../redux/commonSlide";
 import { SESSION_KEYS } from "utils/constant";
 import { setCart } from "../../../../redux/commonSlide";
 
@@ -37,6 +38,7 @@ const Header = () => {
   const [isHome, setIsHome] = useState(location.pathname.length <= 1);
   const [isShowCategories, setShowCategories] = useState(isHome);
   const { cart: cartRedux } = useSelector((state) => state.commonSlide);
+  const searchQuery = useSelector((state) => state.commonSlide.searchQuery || '');
   const [menus, setMenus] = useState([
     {
       name: 'Trang chủ',
@@ -296,8 +298,13 @@ const Header = () => {
           <div className='col-lg-9  col-md-12 col-sm-12 col-xs-12 hero__search_container'>
             <div className='hero__search'>
               <div className='hero__search_form'>
-                <form>
-                  <input type='text' placeholder='Bạn cần tìm gì?' />
+                <form onSubmit={(e) => { e.preventDefault(); navigate(ROUTERS.USER.PRODUCTS); }}>
+                  <input
+                    type='text'
+                    placeholder='Bạn cần tìm gì?'
+                    value={searchQuery}
+                    onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+                  />
                   <button type='submit'>Tìm kiếm</button>
                 </form>
               </div>
