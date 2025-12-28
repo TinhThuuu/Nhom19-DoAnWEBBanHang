@@ -7,114 +7,57 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { formater } from 'utils/formater';
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTERS } from 'utils/router';
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlinePhone } from "react-icons/hi";
-import { AiOutlineDownCircle } from "react-icons/ai";
-import { AiOutlineUpCircle } from "react-icons/ai";
 import { useGetCategoriesUS } from "api/homePage";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchQuery } from "../../../../redux/commonSlide";
-import { SESSION_KEYS } from "utils/constant";
-import { setCart } from "../../../../redux/commonSlide";
-
 
 export const categoriesHardCode = [
-    "Sản phẩm 1",
-    "Sản phẩm 2",
-    "Sản phẩm 3",
-    "Sản phẩm 4",
-    "Sản phẩm 5",
-    "Sản phẩm 6"
-  ];
-
+  "Sản phẩm 1",
+  "Sản phẩm 2",
+  "Sản phẩm 3",
+  "Sản phẩm 4",
+  "Sản phẩm 5",
+  "Sản phẩm 6"
+];
 
 const Header = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const isHome = location.pathname === '/' || location.pathname === `/${ROUTERS.USER.HOME}`;
+
   const [isShowHumberger, setShowHumberger] = useState(false);
-  const [isHome, setIsHome] = useState(location.pathname.length <= 1);
-  const [isShowCategories, setShowCategories] = useState(isHome);
-  const { cart: cartRedux } = useSelector((state) => state.commonSlide);
-  const searchQuery = useSelector((state) => state.commonSlide.searchQuery || '');
+  const [isShowCategories, setShowCategories] = useState(false);
   const [menus, setMenus] = useState([
-    {
-      name: 'Trang chủ',
-      path: ROUTERS.USER.HOME,
-    },
-    {
-      name: 'Cửa hàng',
-      path: ROUTERS.USER.PRODUCTS,
-    },
-    {
-      name: 'Sản phẩm',
-      path: '',
-      isShowSubMenu: false,
-      child: [
-        {
-          name: 'San pham 1',
-          path: '',
-        },
-        {
-          name: 'San pham 2',
-          path: '',
-        },
-        {
-          name: 'San pham 3',
-          path: '',
-        },
-        {
-          name: 'San pham 4',
-          path: '',
-        },
-      ]
-
-    },
-    {
-      name: 'Bài viết',
-      path: '',
-    },
-    {
-      name: 'Liên hệ',
-      path: '',
-    },
-  
-  
+    { name: 'Trang chủ', path: `/${ROUTERS.USER.HOME}` },
+    { name: 'Các hãng điện thoại', path: ROUTERS.USER.PRODUCTS, child: true, isShowSubMenu: false },
+    { name: 'Liên hệ ngay', path: '' },
   ]);
-  
+
+  const { data: categoriesData } = useGetCategoriesUS();
+  const categories = categoriesData?.data || categoriesData || categoriesHardCode;
+
+  const searchQuery = useSelector((s) => s.commonSlide.searchQuery);
+  const cartRedux = useSelector((s) => s.commonSlide.cart || { products: [], totalPrice: 0, totalQuantity: 0 });
+
+  const userSession = ReactSession.get('USER');
 
   useEffect(() => {
-    const isHome = location.pathname.length <= 1;
-    setIsHome(isHome);
-    setShowCategories(isHome);
-  }, [location]);
-
-  const { data: categories } = useGetCategoriesUS();
-
-  const userSession = ReactSession.get(SESSION_KEYS.USER);
-
-  useEffect(() => {
-    const cart = ReactSession.get(SESSION_KEYS.CART);
-
-    if (cart) {
-      dispatch(setCart(cart));
-    }
-  }, [dispatch]);
+    // close humberger menu on route change
+    setShowHumberger(false);
+  }, [location.pathname]);
 
   return (
     <>
-      <div className={`humberger__menu__overlay ${
-        isShowHumberger ? "active" : ""}`} 
-        onClick={()=>setShowHumberger(false)}
-        />
-      <div className={`humberger__menu__wrapper ${
-        isShowHumberger ? "show" : ""}`}
-      >
-        <div className='header__logo'>
-          <h1>DT SHOP</h1>
-        </div>
+      <div className={`humberger__menu__overlay ${isShowHumberger ? "active" : ""}`} onClick={() => setShowHumberger(false)} />
+      <div className={`humberger__menu__wrapper ${isShowHumberger ? "show" : ""}`}>
+        <div className='header__logo'><h1>DT SHOP</h1></div>
+
         <div className='humberger__menu__cart'>
           <ul>
             <li>
@@ -123,84 +66,64 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-          <div className='header__cart__price'>
-            Giỏ hàng: <span>{formater(cartRedux.totalPrice)}</span>
-          </div>
+          <div className='header__cart__price'>Giỏ hàng: <span>{formater(cartRedux.totalPrice)}</span></div>
         </div>
+
         <div className='humberger__menu__widget'>
-         <div className='header__top__right__auth'>
-           {userSession ? (
-             <Link to={ROUTERS.USER.PROFILE}>
-               <FaUserCircle /> {userSession.name}
-             </Link>
-           ) : (
-             <span onClick={() => navigate(ROUTERS.USER.LOGIN)}>
-               <FaUserCircle /> Đăng nhập
-             </span>
-           )}
+          <div className='header__top__right__auth'>
+            {userSession ? (
+              <Link to={ROUTERS.USER.PROFILE}><FaUserCircle /> {userSession.name}</Link>
+            ) : (
+              <span onClick={() => navigate(ROUTERS.USER.LOGIN)}><FaUserCircle /> Đăng nhập</span>
+            )}
           </div>
         </div>
+
         <div className='humberger__menu__nav'>
           <ul>
-            {
-              menus.map((menu, menuKey)=>(
-                <li key={menuKey} to={menu.path}>
-                  <Link 
-                    to={menu.path}
-                    onClick={()=>{
-                    const newMenus=[...menus];
-                    newMenus[menuKey].isShowSubMenu = !newMenus[menuKey].isShowSubMenu;
+            {menus.map((menu, menuKey) => (
+              <li key={menuKey}>
+                {menu.name === 'Liên hệ ngay' ? (
+                  <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer">{menu.name}</a>
+                ) : (
+                  <Link to={menu.path} onClick={() => {
+                    const newMenus = [...menus];
+                    if (newMenus[menuKey].child) newMenus[menuKey].isShowSubMenu = !newMenus[menuKey].isShowSubMenu;
                     setMenus(newMenus);
-                  }}>
-                    {menu.name}
-                    {menu.child && (
-                      menu.isShowSubMenu ? (
-                        <AiOutlineDownCircle />
-                      ) : (
-                        <AiOutlineUpCircle />
-                      ))}
-                  </Link>
-                  {menu.child && (
-                    <ul className={`header__menu__dropdown ${ menu.isShowSubMenu ? "show__submenu" : "" }`}>
-                      {menu.name === 'Sản phẩm' ? (
-                        categories?.map((cat) => (
-                          <li key={cat.id}>
-                            <Link to={`${ROUTERS.USER.PRODUCTS}?category=${cat.id}`}>{cat.name}</Link>
-                          </li>
-                        ))
-                      ) : (
-                        menu.child.map((childItem,childKey)=>(
-                          <li key={`${menuKey}-${childKey}`}>
-                            <Link to={childItem.path}>{childItem.name}</Link>
-                          </li>
-                        ))
-                      )}
-                    </ul>
-                  )}
-                </li>
-              ))
-            }
+                  }}>{menu.name}</Link>
+                )}
 
+                {menu.child && (
+                  <ul className={`header__menu__dropdown ${menu.isShowSubMenu ? 'show__submenu' : ''}`}>
+                    {menu.name === 'Các hãng điện thoại' ? (
+                      categories?.map((cat) => (
+                        <li key={cat.id}><Link to={`${ROUTERS.USER.PRODUCTS}?category=${cat.id}`}>{cat.name}</Link></li>
+                      ))
+                    ) : (
+                      menu.child.map((childItem, childKey) => (
+                        <li key={`${menuKey}-${childKey}`}><Link to={childItem.path}>{childItem.name}</Link></li>
+                      ))
+                    )}
+                  </ul>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
+
         <div className='header__top__right__social'>
-          <Link to={''}>
-            <FaSquareFacebook />
-          </Link>
-          <Link to={''}>
-            <IoLogoInstagram />
-          </Link>
+          <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><FaSquareFacebook /></a>
+          <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><IoLogoInstagram /></a>
         </div>
+
         <div className='humberger__menu__contact'>
           <ul>
-            <li>
-              <MdEmail />tinhlv219@gmail.com
-            </li>
+            <li><MdEmail />tinhlv219@gmail.com</li>
             <li>Free Ship cho đơn hàng từ {formater(299000)}</li>
           </ul>
         </div>
       </div>
-      
+
       <div className='header__top'>
         <div className='container'>
           <div className='row'>
@@ -209,21 +132,12 @@ const Header = () => {
                 <li><MdEmail />tinhlv219@gmail.com</li>
                 <li>Free Ship cho đơn hàng từ {formater(299000)}</li>
               </ul>
-
-
-
-
-
-
             </div>
+
             <div className='col-6 header__top_right'>
               <ul>
-                <li>
-                  <FaSquareFacebook />
-                </li>
-                <li>
-                  <IoLogoInstagram />
-                </li> 
+                <li><a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><FaSquareFacebook /></a></li>
+                <li><a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><IoLogoInstagram /></a></li>
                 <li>
                   {userSession ? (
                     <span onClick={() => navigate(ROUTERS.USER.PROFILE)}><FaUserCircle /> {userSession.name}</span>
@@ -236,49 +150,42 @@ const Header = () => {
           </div>
         </div>
       </div>
+
       <div className='container'>
         <div className='row'>
-          <div className='col-lg-3'>
-            <div className='header__logo'>
-              <h1>DT SHOP</h1>
-            </div>
-          </div>
+          <div className='col-lg-3'><div className='header__logo'><h1>DT SHOP</h1></div></div>
           <div className='col-lg-6'>
             <nav className='header__menu'>
               <ul>
-                {
-                  menus?.map((menus, menuKey) => (
-                    <li key={menuKey} className={menuKey === 0 ? 'active' : ''}>
-                      <Link to={menus?.path}>{menus?.name}</Link>
-                      {
-                        menus.child && (
-                          <ul className='header__menu_dropdown'>
-                            {
-                              menus.name === 'Sản phẩm' ? (
-                                categories?.map((cat) => (
-                                  <li key={cat.id}>
-                                    <Link to={`${ROUTERS.USER.PRODUCTS}?category=${cat.id}`}>{cat.name}</Link>
-                                  </li>
-                                ))
-                              ) : (
-                                menus.child.map((childItem, childKey) => (
-                                  <li key={`${menuKey}-${childKey}`}>
-                                    <Link to ={childItem.path}>{childItem.name}</Link>
-                                  </li>
-                              ))
-                              )}
-                          </ul>
+                {menus?.map((m, menuKey) => (
+                  <li key={menuKey} className={menuKey === 0 ? 'active' : ''}>
+                    {m.name === 'Liên hệ ngay' ? (
+                      <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer">{m.name}</a>
+                    ) : (
+                      <Link to={m?.path}>{m?.name}</Link>
+                    )}
+
+                    {m.child && (
+                      <ul className='header__menu_dropdown'>
+                        {m.name === 'Các hãng điện thoại' ? (
+                          categories?.map((cat) => (
+                            <li key={cat.id}><Link to={`${ROUTERS.USER.PRODUCTS}?category=${cat.id}`}>{cat.name}</Link></li>
+                          ))
+                        ) : (
+                          m.child.map((childItem, childKey) => (
+                            <li key={`${menuKey}-${childKey}`}><Link to={childItem.path}>{childItem.name}</Link></li>
+                          ))
                         )}
-                    </li>
-                  ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
               </ul>
             </nav>
           </div>
           <div className='col-lg-3'>
             <div className='header__cart'>
-              <div className='header__cart_price'>
-                <span>{formater(cartRedux.totalPrice)}</span>
-              </div>
+              <div className='header__cart_price'><span>{formater(cartRedux.totalPrice)}</span></div>
               <ul>
                 <li>
                   <Link to={ROUTERS.USER.SHOPPING_CART}>
@@ -287,75 +194,50 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-            <div className='humberger__open' >
-              <AiOutlineMenu  onClick={()=>setShowHumberger(true)}/>
-            </div>
-
-
+            <div className='humberger__open'><AiOutlineMenu onClick={() => setShowHumberger(true)} /></div>
           </div>
         </div>
       </div>
+
       <div className='container'>
         <div className='row hero__categories_container'>
           <div className='col-lg-3 col-md-12 col-sm-12 col-xs-12 hero__categories'>
             <div className='hero__categories_all' onClick={() => setShowCategories(!isShowCategories)}>
-              <AiOutlineMenu />
-              Danh sách sản phẩm
+              <AiOutlineMenu />Danh sách sản phẩm
             </div>
-              <ul className={isShowCategories ? "" : "hidden"}>
-                  {
-                    categories?.map((category) => (
-                      <li key={category.id}>
-                        <Link to={ROUTERS.USER.PRODUCTS}>{category.name}</Link>
-                      </li>
-                    ))}
-              </ul>
+            <ul className={isShowCategories ? '' : 'hidden'}>
+              {categories?.map((category) => (
+                <li key={category.id}><Link to={ROUTERS.USER.PRODUCTS}>{category.name}</Link></li>
+              ))}
+            </ul>
           </div>
           <div className='col-lg-9  col-md-12 col-sm-12 col-xs-12 hero__search_container'>
             <div className='hero__search'>
               <div className='hero__search_form'>
                 <form onSubmit={(e) => { e.preventDefault(); navigate(ROUTERS.USER.PRODUCTS); }}>
-                  <input
-                    type='text'
-                    placeholder='Bạn cần tìm gì?'
-                    value={searchQuery}
-                    onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-                  />
+                  <input type='text' placeholder='Bạn cần tìm gì?' value={searchQuery} onChange={(e) => dispatch(setSearchQuery(e.target.value))} />
                   <button type='submit'>Tìm kiếm</button>
                 </form>
               </div>
               <div className='hero__search_phone'>
-                <div className='hero__search_phone_icon'>
-                  <HiOutlinePhone />
-               </div>
-               <div className='hero__search_phone_text'>
-                  <p>0976.580.867</p>
-                  <span>Hỗ trợ 24/7</span>
-               </div>
+                <div className='hero__search_phone_icon'><HiOutlinePhone /></div>
+                <div className='hero__search_phone_text'><p>0976.580.867</p><span>Hỗ trợ 24/7</span></div>
               </div>
             </div>
-            {
-              isHome && (
-
-               <div className='hero__item'>
+            {isHome && (
+              <div className='hero__item'>
                 <div className='hero__text'>
                   <span>Khuyến mãi hot!!!</span>
-                  <h2>
-                    Săn Táo <br />
-                    Giá Sốc
-                  </h2>
+                  <h2>Săn Táo <br />Giá Sốc</h2>
                   <p>Bảo hành 1 đổi 1 trong 12 tháng</p>
                   <Link to='#' className='primary-btn'>Mua ngay</Link>
-
                 </div>
               </div>
-              )
-            }
+            )}
           </div>
         </div>
       </div>
     </>
-
   );
 };
 

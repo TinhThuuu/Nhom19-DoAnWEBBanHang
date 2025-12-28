@@ -26,7 +26,7 @@ const Footer = () => {
               <h6>Cửa hàng</h6>
               <ul>
                 <li>
-                  <Link to=''>Liên hệ</Link>
+                  <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer">Liên hệ</a>
                 </li>
                 <li>
                   <Link to=''>Thông tin về chúng tôi</Link>
@@ -58,9 +58,9 @@ const Footer = () => {
                   <button type='submit' class='button-submit'>Đăng ký</button>
                 </div>
                 <div className='footer__widget_social'>
-                  <div><FaFacebookSquare /></div>
-                  <div><FaInstagram /></div>
-                  <div><FaLinkedin /></div> 
+                  <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><FaFacebookSquare /></a>
+                  <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+                  <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
                 </div>
               </form>
             </div>

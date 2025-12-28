@@ -673,17 +673,6 @@ class ProductSeeder extends Seeder
               'category_id' => 1
             ],
             [
-              'name'=> 'Samsung Galaxy Buds 2 Pro (bundle)',
-              'img'=> $img . '50.jpg',
-              'price'=> 3490000,
-              'inventory'=> rand(100, 650),
-              'description'=> $samsung,
-              'sort_description'=> 'Tai nghe Galaxy Buds 2 Pro - âm thanh cao cấp, khử ồn tốt.',
-              'facebook'=> '123',
-              'linkedin'=> '123',
-              'category_id' => 2
-            ],
-            [
               'name'=> 'Xiaomi Mi Band 8 (bundle)',
               'img'=> $img . '51.jpg',
               'price'=> 899000,
@@ -904,17 +893,6 @@ class ProductSeeder extends Seeder
               'category_id' => 4
             ],
             [
-              'name'=> 'OPPO Watch 3 (bundle)',
-              'img'=> $img . '71.jpg',
-              'price'=> 4990000,
-              'inventory'=> rand(100, 650),
-              'description'=> $oppo,
-              'sort_description'=> 'OPPO Watch 3 - đồng hồ thông minh kèm gói bundle.',
-              'facebook'=> '123',
-              'linkedin'=> '123',
-              'category_id' => 1
-            ],
-            [
               'name'=> 'Samsung Galaxy A04s',
               'img'=> $img . '72.jpg',
               'price'=> 1990000,
@@ -1120,17 +1098,6 @@ class ProductSeeder extends Seeder
               'inventory'=> rand(100, 650),
               'description'=> $samsung,
               'sort_description'=> 'Tab S11 - tablet cao cấp cho công việc và giải trí chuyên sâu.',
-              'facebook'=> '123',
-              'linkedin'=> '123',
-              'category_id' => 2
-            ],
-            [
-              'name'=> 'Samsung Galaxy Watch 6',
-              'img'=> $img . '91.jpg',
-              'price'=> 4990000,
-              'inventory'=> rand(100, 650),
-              'description'=> $samsung,
-              'sort_description'=> 'Galaxy Watch 6 - đồng hồ thông minh, theo dõi sức khỏe toàn diện.',
               'facebook'=> '123',
               'linkedin'=> '123',
               'category_id' => 2
