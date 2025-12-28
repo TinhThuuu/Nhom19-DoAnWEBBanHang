@@ -8,6 +8,10 @@
     display: flex;
     gap: 20px;
 
+    .button-submit{
+      margin-top: 0;
+    }
+
     .quantity{
       display: flex;
       align-items: center;

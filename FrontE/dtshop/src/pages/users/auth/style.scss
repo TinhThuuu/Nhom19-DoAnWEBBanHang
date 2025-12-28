@@ -45,8 +45,8 @@
 }
 
 .back-home {
-  background: transparent;
-  color: map.get($theme-color, "main");
+  background: map.get($theme-color, "main");;
+  color: #ffffff;
   border: 1px solid rgba(0,136,116,0.12);
   padding: 8px 12px;
   border-radius: 6px;
