@@ -68,6 +68,8 @@ const OrderPageAdPage = () => {
                 <th>Mã đơn hàng</th>
                 <th>Tổng đơn</th>
                 <th>Khách hàng</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
                 <th>Ngày đặt</th>
                 <th>Trạng thái</th>
               </tr>
@@ -80,6 +82,8 @@ const OrderPageAdPage = () => {
                   </td>
                   <td>{formater(item.total)}</td>
                   <td>{item.customerName}</td>
+                  <td>{item.address}</td>
+                  <td>{item.phone}</td>
                   <td>{new Date(item.date).toLocaleDateString()}</td>
                   <td>
                     <div className="orders__dropdown">
