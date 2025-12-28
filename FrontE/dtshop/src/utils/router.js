@@ -11,6 +11,7 @@ export const ROUTERS = {
         PRODUCT: "/san-pham/chi-tiet/:id",
         SHOPPING_CART: "/gio-hang",
         CHECKOUT: "/thanh-toan",
+        PAYMENT: "/thanh-toan/huong-dan",
     },
     ADMIN: {
     LOGIN: `${ADMIN_PATH}/dang-nhap`,

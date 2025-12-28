@@ -8,6 +8,7 @@ import ProductsPage from "pages/users/ProductsPage";
 import ProductDetailPage from "pages/users/ProductDetailPage";
 import ShoppingCartPage from "pages/users/shoppingCartPage";
 import CheckoutPage from "pages/users/checkOutPage";
+import PaymentPage from "pages/users/paymentPage";
 import AuthPage from "pages/users/auth";
 import LoginAdPage from "pages/admin/loginPage";
 import MasterAdLayout from "pages/admin/theme/masterAdLayout";
@@ -40,6 +41,10 @@ const renderUserRouter = () => {
         {
             path: ROUTERS.USER.CHECKOUT,
             component: <CheckoutPage />,
+        },
+        {
+          path: ROUTERS.USER.PAYMENT,
+          component: <PaymentPage />,
         },
         {
           path: ROUTERS.USER.LOGIN,

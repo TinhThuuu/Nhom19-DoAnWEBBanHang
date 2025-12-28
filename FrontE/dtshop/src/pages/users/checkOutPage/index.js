@@ -15,11 +15,20 @@ const CheckoutPage = () => {
 
   const { mutate: postOrder } = useMutation({
     mutationFn: postOrderAPI,
-    onSuccess: () => {
+    onSuccess: (res, variables) => {
+      const paymentMethod = variables.paymentMethod;
       alert("Đặt hàng thành công");
       ReactSession.remove(SESSION_KEYS.CART);
-      navigate(ROUTERS.USER.HOME);
+      if (paymentMethod === 'BANK') {
+        ReactSession.set('LAST_ORDER', res?.data || null);
+        navigate(ROUTERS.USER.PAYMENT);
+      } else {
+        navigate(ROUTERS.USER.HOME);
+      }
     },
+    onError: (err) => {
+      alert(err?.response?.data?.message || 'Đặt hàng thất bại');
+    }
   });
 
   const [fullName, setFullName] = useState("");
@@ -27,6 +36,7 @@ const CheckoutPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState('COD');
 
   const [errors, setErrors] = useState({
     fullName: "",
@@ -74,6 +84,7 @@ const CheckoutPage = () => {
         phone,
         email,
         note,
+        paymentMethod,
         products: cart.products.map(({ product, quantity }) => ({
           productId: product.id,
           quantity,
@@ -162,6 +173,17 @@ const CheckoutPage = () => {
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                 />
+              </div>
+              <div className="checkout__input">
+                <label>Phương thức thanh toán:</label>
+                <div className="payment-options">
+                  <label>
+                    <input type="radio" name="payment" value="COD" checked={paymentMethod === 'COD'} onChange={() => setPaymentMethod('COD')} /> Thanh toán khi nhận hàng
+                  </label>
+                  <label>
+                    <input type="radio" name="payment" value="BANK" checked={paymentMethod === 'BANK'} onChange={() => setPaymentMethod('BANK')} /> Chuyển khoản ngân hàng
+                  </label>
+                </div>
               </div>
             </div>
             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">

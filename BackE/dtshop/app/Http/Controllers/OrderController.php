@@ -19,6 +19,7 @@ class OrderController extends Controller
            'phone' => 'required|string|max:50',
            'email' => 'required|email|max:255',
            'note' => 'nullable|string',
+           'paymentMethod' => 'nullable|string',
            'products' => 'required|array|min:1',
            'products.*.productId' => 'required|integer|exists:products,id',
            'products.*.quantity' => 'required|integer|min:1',
@@ -34,6 +35,7 @@ class OrderController extends Controller
                'phone' => $data['phone'],
                'email' => $data['email'],
                'note' => $data['note'] ?? '',
+               'paymentMethod' => $data['paymentMethod'] ?? null,
                'status' => 'ORDERED',
            ]);
 

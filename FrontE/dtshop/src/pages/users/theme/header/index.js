@@ -162,11 +162,19 @@ const Header = () => {
                   </Link>
                   {menu.child && (
                     <ul className={`header__menu__dropdown ${ menu.isShowSubMenu ? "show__submenu" : "" }`}>
-                      {menu.child.map((childItem,childKey)=>(
-                        <li key={`${menuKey}-${childKey}`}>
-                          <Link to={childItem.path}>{childItem.name}</Link>
-                        </li>
-                      ))}
+                      {menu.name === 'Sản phẩm' ? (
+                        categories?.map((cat) => (
+                          <li key={cat.id}>
+                            <Link to={`${ROUTERS.USER.PRODUCTS}?category=${cat.id}`}>{cat.name}</Link>
+                          </li>
+                        ))
+                      ) : (
+                        menu.child.map((childItem,childKey)=>(
+                          <li key={`${menuKey}-${childKey}`}>
+                            <Link to={childItem.path}>{childItem.name}</Link>
+                          </li>
+                        ))
+                      )}
                     </ul>
                   )}
                 </li>
@@ -246,11 +254,19 @@ const Header = () => {
                         menus.child && (
                           <ul className='header__menu_dropdown'>
                             {
-                              menus.child.map((childItem, childKey) => (
-                                <li key={`${menuKey}-${childKey}`}>
-                                  <Link to ={childItem.path}>{childItem.name}</Link>
-                                </li>
-                            ))}
+                              menus.name === 'Sản phẩm' ? (
+                                categories?.map((cat) => (
+                                  <li key={cat.id}>
+                                    <Link to={`${ROUTERS.USER.PRODUCTS}?category=${cat.id}`}>{cat.name}</Link>
+                                  </li>
+                                ))
+                              ) : (
+                                menus.child.map((childItem, childKey) => (
+                                  <li key={`${menuKey}-${childKey}`}>
+                                    <Link to ={childItem.path}>{childItem.name}</Link>
+                                  </li>
+                              ))
+                              )}
                           </ul>
                         )}
                     </li>
