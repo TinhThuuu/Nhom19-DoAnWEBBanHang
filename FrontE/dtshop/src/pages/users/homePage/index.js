@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect, useMemo } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import './style.scss'
@@ -83,40 +83,55 @@ const HomePage = () => {
   const { data: categories } = useGetCategoriesUS();
   const { data: products } = useGetProductsUS();
 
-  const renderFeaturedProducts = (data) => {
-    const tabList = [];
-    const tabPanels = [];
+  // pagination and tabs state
+  const PAGE_SIZE = 12;
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
-    tabList.push(
-      categories?.map((categery) => (
-        <Tab key={categery.id}>{categery.name}</Tab>
-      ))
-    );
+  useEffect(() => {
+    // reset to first page when switching tabs
+    setCurrentPage(1);
+  }, [selectedTab]);
 
-    categories?.forEach((category) => {
-      tabPanels.push(
-        products
-          ?.filter((product) => Number(product.category_id) === Number(category.id))
-          .map((product) => (
-            <div
-              className="col-lg-3 col-md-4 col-sm-6 col-xs-12"
-              key={product.id}
-            >
-              <ProductsCard product={product} />
+  const renderFeaturedProducts = () => {
+    const tabList = categories?.map((categery) => (
+      <Tab key={categery.id}>{categery.name}</Tab>
+    )) || [];
+
+    const tabPanels = (categories || []).map((category, idx) => {
+      const list = (products || []).filter((product) => Number(product.category_id) === Number(category.id)) || [];
+      const total = list.length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      const page = selectedTab === idx ? currentPage : 1;
+      const start = (page - 1) * PAGE_SIZE;
+      const view = list.slice(start, start + PAGE_SIZE);
+
+      return (
+        <TabPanel key={idx}>
+          <div className="row">
+            {view.map((product) => (
+              <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12" key={product.id}>
+                <ProductsCard product={product} />
+              </div>
+            ))}
+          </div>
+          {totalPages > 1 && selectedTab === idx && (
+            <div className="hp-pagination">
+              <button className="hp-pagination__btn hp-pagination__prev" disabled={page === 1} onClick={() => setCurrentPage((s) => Math.max(1, s - 1))}>Prev</button>
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button key={i} className={`hp-pagination__page ${page===i+1 ? 'hp-pagination__page--active' : ''}`} onClick={() => setCurrentPage(i+1)}>{i+1}</button>
+              ))}
+              <button className="hp-pagination__btn hp-pagination__next" disabled={page === totalPages} onClick={() => setCurrentPage((s) => Math.min(totalPages, s + 1))}>Next</button>
             </div>
-          ))
+          )}
+        </TabPanel>
       );
     });
 
     return (
-      <Tabs>
+      <Tabs selectedIndex={selectedTab} onSelect={(i) => setSelectedTab(i)}>
         <TabList>{tabList}</TabList>
-
-        {tabPanels.map((item, key) => (
-          <TabPanel key={key}>
-            <div className="row">{item}</div>
-          </TabPanel>
-        ))}
+        {tabPanels}
       </Tabs>
     );
   };
@@ -147,7 +162,7 @@ const HomePage = () => {
           <div className='section-title'>
             <h2>Sản phẩm nổi bật</h2>
           </div>
-          {renderFeaturedProducts(featProducts)}
+          {renderFeaturedProducts()}
         </div>
       </div>
       {/*Feature End*/}

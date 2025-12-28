@@ -1,5 +1,6 @@
 import { memo, useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import Breadcrumb from '../theme/breadcrumb';
 import "./style.scss"
 import { useGetCategoriesUS } from 'api/homePage';
@@ -39,6 +40,11 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const location = useLocation();
+
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 12;
 
   // Normalize backend product structure to what `ProductsCard` expects
   // support responses like: [], { products: [] }, { data: [] }
@@ -138,6 +144,19 @@ const ProductsPage = () => {
 
   const finalProducts = useMemo(() => sortProducts(filteredProducts, selectedSort), [filteredProducts, selectedSort]);
 
+  // initialize selectedCategory from query param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoryParam = params.get('category');
+    if (categoryParam) setSelectedCategory(categoryParam);
+  }, [location.search]);
+
+  // pagination compute
+  const totalItems = finalProducts.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  useEffect(() => { if (currentPage > totalPages) setCurrentPage(1); }, [totalPages]);
+  const pagedProducts = finalProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
   return (
     <>
       <Breadcrumb name="Danh sách sản phẩm" />
@@ -205,11 +224,21 @@ const ProductsPage = () => {
             <div className='row'>
               {isLoading && <div>Đang tải sản phẩm...</div>}
               {isError && <div>Lỗi khi tải sản phẩm.</div>}
-              {!isLoading && !isError && finalProducts.map((item,key)=>(
+              {!isLoading && !isError && pagedProducts.map((item,key)=>(
                 <div className='col-lg-4 col-md-4 col-sm-6 col-xs-12' key={key}>
                   <ProductsCard product={item} />
                 </div>
               ))}
+              {/* Pagination controls */}
+              {!isLoading && !isError && totalPages > 1 && (
+                <div className="pagination-wrapper" style={{width:'100%', display:'flex', justifyContent:'center', marginTop:20}}>
+                  <button disabled={currentPage===1} onClick={() => setCurrentPage((p) => Math.max(1, p-1))}>Prev</button>
+                  {Array.from({length: totalPages}).map((_, i) => (
+                    <button key={i} onClick={() => setCurrentPage(i+1)} style={{fontWeight: currentPage===i+1 ? 'bold' : 'normal', margin:'0 6px'}}>{i+1}</button>
+                  ))}
+                  <button disabled={currentPage===totalPages} onClick={() => setCurrentPage((p) => Math.min(totalPages, p+1))}>Next</button>
+                </div>
+              )}
             </div>
           </div>
         </div>
