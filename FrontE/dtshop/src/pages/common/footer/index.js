@@ -1,12 +1,31 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import "./style.scss";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ROUTERS } from 'utils/router';
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 
 
 const Footer = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    const email = (newsletterEmail || '').trim();
+    if (!email) {
+      alert('Vui lòng nhập email');
+      return;
+    }
+
+    // Navigate to internal login/register route and prefill email
+    const path = `/${ROUTERS.USER.LOGIN}`;
+    const query = `?email=${encodeURIComponent(email)}&register=1`;
+    navigate(`${path}${query}`);
+  };
+
   return (
     <footer className="footer">
       <div className='container'>
@@ -52,10 +71,10 @@ const Footer = () => {
             <div className='footer__widget'>
               <h6>Khuyến mãi và ưu đãi</h6>
               <p>Đăng ký nhận thông tin tại đây:</p>
-              <form action='#'>
+              <form onSubmit={handleSubscribe}>
                 <div className='input__group'>
-                  <input type='text' placeholder='Nhập email của bạn' />
-                  <button type='submit' class='button-submit'>Đăng ký</button>
+                  <input type='email' placeholder='Nhập email của bạn' value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} />
+                  <button type='submit' className='button-submit'>Đăng ký</button>
                 </div>
                 <div className='footer__widget_social'>
                   <a href="https://www.facebook.com/Tinhthu219" target="_blank" rel="noopener noreferrer"><FaFacebookSquare /></a>

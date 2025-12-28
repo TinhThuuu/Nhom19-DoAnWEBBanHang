@@ -1,9 +1,9 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { postLoginAPI } from "api/loginPage";
 import axios from "api/axios";
 import { ReactSession } from "react-client-session";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ROUTERS } from "utils/router";
 import { SESSION_KEYS } from "utils/constant";
 import "./style.scss";
@@ -18,6 +18,16 @@ const AuthPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // read query params to prefill email and open register view
+    const params = new URLSearchParams(location.search);
+    const emailParam = params.get('email');
+    const registerParam = params.get('register');
+    if (emailParam) setEmail(emailParam);
+    if (registerParam) setIsRegister(true);
+  }, [location.search]);
 
   const { mutate: login } = useMutation({
     mutationFn: postLoginAPI,
