@@ -1201,6 +1201,17 @@ class ProductSeeder extends Seeder
               'linkedin'=> '123',
               'category_id' => 3
             ],
+            [
+              'name'=> 'iPhone 17 Pro max',
+              'img'=> $img . '101.jpg',
+              'price'=> 45000000,
+              'inventory'=> rand(100, 650),
+              'description'=> $iphone,
+              'sort_description'=> 'iPhone 17 Pro Max- flagship Apple tốt nhất hiện tại với chip mới và camera Pro.',
+              'facebook'=> '123',
+              'linkedin'=> '123',
+              'category_id' => 3
+            ],
           ];
 
         DB::table('products')->insert($products);

@@ -46,7 +46,8 @@ class OrderController extends Controller
                ]);
            }
 
-           $order->load('details');
+           // load details with their related product so the frontend receives product info (price, name)
+           $order->load('details.product');
 
            DB::commit();
 

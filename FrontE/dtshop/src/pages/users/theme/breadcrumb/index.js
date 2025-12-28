@@ -11,7 +11,7 @@ const Breadcrumb = (props) => {
         <div className="breadcrumb__option">
           <ul>
             <li className="link">
-              <Link to={ROUTERS.USER.HOME}>Trang chủ</Link>
+              <Link to={`/${ROUTERS.USER.HOME}`}>Trang chủ</Link>
             </li>
             <li>{props.name}</li>
           </ul>

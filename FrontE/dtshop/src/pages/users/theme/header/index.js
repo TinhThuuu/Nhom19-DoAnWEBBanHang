@@ -1,5 +1,6 @@
 import { memo, useState, useEffect } from 'react';
 import { ReactSession } from "react-client-session";
+import { SESSION_KEYS } from 'utils/constant';
 import './style.scss';
 import { FaSquareFacebook } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io";
@@ -7,7 +8,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { formater } from 'utils/formater';
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, generatePath } from 'react-router-dom';
 import { ROUTERS } from 'utils/router';
 import { AiOutlineMenu } from "react-icons/ai";
 import { HiOutlinePhone } from "react-icons/hi";
@@ -45,10 +46,9 @@ const Header = () => {
   const searchQuery = useSelector((s) => s.commonSlide.searchQuery);
   const cartRedux = useSelector((s) => s.commonSlide.cart || { products: [], totalPrice: 0, totalQuantity: 0 });
 
-  const userSession = ReactSession.get('USER');
+  const userSession = ReactSession.get(SESSION_KEYS.USER);
 
   useEffect(() => {
-    // close humberger menu on route change
     setShowHumberger(false);
   }, [location.pathname]);
 
@@ -230,7 +230,7 @@ const Header = () => {
                   <span>Khuyến mãi hot!!!</span>
                   <h2>Săn Táo <br />Giá Sốc</h2>
                   <p>Bảo hành 1 đổi 1 trong 12 tháng</p>
-                  <Link to='#' className='primary-btn'>Mua ngay</Link>
+                  <Link to={generatePath(ROUTERS.USER.PRODUCT, { id: 101 })} className='primary-btn'>Mua ngay</Link>
                 </div>
               </div>
             )}

@@ -7,7 +7,7 @@ import "./style.scss";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const order = ReactSession.get('LAST_ORDER');
+  const order = ReactSession.get("LAST_ORDER");
 
   const goHome = () => navigate(ROUTERS.USER.HOME);
 
@@ -16,15 +16,24 @@ const PaymentPage = () => {
       <div className="payment-page container">
         <h2>Hướng dẫn thanh toán</h2>
         <p>Không có đơn hàng để hiển thị. Vui lòng quay lại trang chủ hoặc đặt hàng mới.</p>
-        <button onClick={goHome} className="button-submit">Về trang chủ</button>
+        <button onClick={goHome} className="button-submit">
+          Về trang chủ
+        </button>
       </div>
     );
   }
+
+  const totalPrice =
+    order.details?.reduce(
+      (sum, d) => sum + (d.product?.price ?? 0) * d.quantity,
+      0
+    ) ?? 0;
 
   return (
     <div className="payment-page container">
       <h2>Hướng dẫn chuyển khoản</h2>
       <p>Vui lòng chuyển khoản theo nội dung và thông tin sau:</p>
+
       <ul>
         <li>Ngân hàng: SHB</li>
         <li>Chủ tài khoản: LE VAN TINH</li>
@@ -40,14 +49,20 @@ const PaymentPage = () => {
 
       <h4>Mặt hàng</h4>
       <ul>
-        {order.details && order.details.map((d) => (
-          <li key={d.id}>{d.product? d.product.name : d.product_id} - {d.quantity} x {formater(d.product? d.product.price : 0)}</li>
+        {order.details?.map((d) => (
+          <li key={d.id}>
+            {d.product?.name ?? `SP#${d.product_id}`}
+            {" - "}
+            {d.quantity} x {formater(d.product?.price ?? 0)}
+          </li>
         ))}
       </ul>
 
-      <p>Tổng tiền: {formater(order.details ? order.details.reduce((s, d) => s + ((d.product? d.product.price : 0) * d.quantity), 0) : 0)}</p>
+      <p><strong>Tổng tiền:</strong> {formater(totalPrice)}</p>
 
-      <button onClick={goHome} className="button-submit">Hoàn tất</button>
+      <button onClick={goHome} className="button-submit">
+        Hoàn tất
+      </button>
     </div>
   );
 };
