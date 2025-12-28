@@ -33,7 +33,7 @@ class OrderController extends Controller
                'address' => $data['address'],
                'phone' => $data['phone'],
                'email' => $data['email'],
-               'note' => $data['note'] ?? null,
+               'note' => $data['note'] ?? '',
                'status' => 'ORDERED',
            ]);
 

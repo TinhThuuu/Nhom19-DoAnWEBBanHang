@@ -43,19 +43,20 @@ class AuthController extends Controller
             'password' => 'required|string|min:3',
         ]);
 
-        $user = new User();
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = Hash::make($data['password']);
-        $user->save();
+        try {
+            $user = new User();
+            $user->name = $data['name'];
+            $user->email = $data['email'];
+            $user->password = Hash::make($data['password']);
+            $user->save();
 
-        $accessToken = Hash::make($user->email . now());
-        // optionally save token if column exists
-        if (isset($user->access_token)) {
+            $accessToken = Hash::make($user->email . now());
             $user->access_token = $accessToken;
             $user->save();
-        }
 
-        return response()->json(['message' => 'Register successful', 'user' => $user, 'access_token' => $accessToken], 201);
+            return response()->json(['message' => 'Register successful', 'user' => $user, 'access_token' => $accessToken], 201);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Unable to register user', 'message' => $e->getMessage()], 500);
+        }
     }
 }

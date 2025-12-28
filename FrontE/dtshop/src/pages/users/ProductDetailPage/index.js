@@ -15,9 +15,11 @@ import { useProductDetailUS } from "api/productDetailPage";
 
 const ProductDetailPage = () => {
 
-  const imgs=[x921,x922,x923]
   const { id } = useParams();
   const { data: product, isLoading } = useProductDetailUS(id);
+
+  // build imgs after product is available; use product.img when present, otherwise fallback to x923
+  const imgs = [x921, x922, product?.img || x923];
 
   return (
     <>
@@ -27,7 +29,7 @@ const ProductDetailPage = () => {
           <div className="container">
             <div className="row">
               <div className="col-lg-6 col-xl-12 col-md-12 col-sm-12 col-xs-12 product__detail__pic">
-                <img src={x921} alt='prod-pic'/>
+                <img src={product.img} alt='prod-pic'/>
                 <div className='main'>
                   {
                     imgs.map((item,key)=>(
