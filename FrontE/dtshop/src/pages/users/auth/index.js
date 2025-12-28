@@ -2,6 +2,7 @@ import { memo, useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { postLoginAPI } from "api/loginPage";
 import axios from "api/axios";
+import { postSyncCartAPI } from 'api/cart/request';
 import { ReactSession } from "react-client-session";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ROUTERS } from "utils/router";
@@ -36,7 +37,12 @@ const AuthPage = () => {
         // admin -> navigate to admin login page
         navigate(ROUTERS.ADMIN.ORDERS);
       } else if (data.user) {
-        ReactSession.set(SESSION_KEYS.USER, data.user);
+        const userToStore = { ...data.user };
+        if (data.access_token) userToStore.access_token = data.access_token;
+        ReactSession.set(SESSION_KEYS.USER, userToStore);
+        // sync client cart to user account
+        const cart = ReactSession.get(SESSION_KEYS.CART) || { products: [], totalPrice: 0 };
+        postSyncCartAPI(cart).catch(() => {});
         alert(data.message || 'Đăng nhập thành công');
         navigate('/');
       }
@@ -47,7 +53,12 @@ const AuthPage = () => {
   const { mutate: register } = useMutation({
     mutationFn: postRegister,
     onSuccess: (data) => {
-      ReactSession.set(SESSION_KEYS.USER, data.user);
+      const userToStore = { ...data.user };
+      if (data.access_token) userToStore.access_token = data.access_token;
+      ReactSession.set(SESSION_KEYS.USER, userToStore);
+      // sync client cart to newly created account if exists
+      const cart = ReactSession.get(SESSION_KEYS.CART) || { products: [], totalPrice: 0 };
+      postSyncCartAPI(cart).catch(() => {});
       alert(data.message || 'Đăng ký thành công');
       navigate('/');
     },

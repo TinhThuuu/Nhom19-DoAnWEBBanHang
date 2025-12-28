@@ -12,6 +12,7 @@ class Order extends Model
     protected $fillable = [
         'fullName',
         'address',
+        'user_id',
         'phone',
         'email',
         'note',
@@ -24,5 +25,10 @@ class Order extends Model
     public function details() 
     {
         return $this->hasMany(OrderDetail::class, 'order_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

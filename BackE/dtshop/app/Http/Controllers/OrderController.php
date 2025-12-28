@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -27,11 +29,31 @@ class OrderController extends Controller
 
        $order = null;
 
+       // determine user id from session/auth or access token
+       $userId = null;
+       if (Auth::check()) {
+           $userId = Auth::id();
+       } else {
+           $token = null;
+           $authHeader = $request->header('Authorization');
+           if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+               $token = substr($authHeader, 7);
+           }
+           if (!$token && $request->has('access_token')) {
+               $token = $request->input('access_token');
+           }
+           if ($token) {
+               $u = User::where('access_token', $token)->first();
+               if ($u) $userId = $u->id;
+           }
+       }
+
        DB::beginTransaction();
        try {
            $order = Order::create([
                'fullName' => $data['fullName'],
                'address' => $data['address'],
+               'user_id' => $userId,
                'phone' => $data['phone'],
                'email' => $data['email'],
                'note' => $data['note'] ?? '',
@@ -46,7 +68,6 @@ class OrderController extends Controller
                ]);
            }
 
-           // load details with their related product so the frontend receives product info (price, name)
            $order->load('details.product');
 
            DB::commit();
@@ -54,21 +75,42 @@ class OrderController extends Controller
            return response()->json(['data' => $order], 201);
        } catch (\Throwable $e) {
            DB::rollBack();
-           return response()->json(['error' => 'Unable to create order', 'message' => $e->getMessage()], 500);
+           return response()->json(['error' => 'Không thể tạo đơn hàng', 'message' => $e->getMessage()], 500);
        }
     }
 
-    /**
-     * Return list of orders with totals and customer info
-     */
     public function index()
     {
         $query = Order::with('details.product')->orderBy('created_at', 'desc');
 
-        // optional filter by email
-        if (request()->has('email')) {
-            $email = request()->get('email');
-            $query->where('email', $email);
+        $filterApplied = false;
+        if (Auth::check()) {
+            $query->where('user_id', Auth::id());
+            $filterApplied = true;
+        } else {
+            $token = null;
+            $authHeader = request()->header('Authorization');
+            if ($authHeader && str_starts_with($authHeader, 'Bearer ')) {
+                $token = substr($authHeader, 7);
+            }
+            if (!$token && request()->has('access_token')) {
+                $token = request()->get('access_token');
+            }
+            if ($token) {
+                $u = User::where('access_token', $token)->first();
+                if ($u) {
+                    $query->where('user_id', $u->id);
+                    $filterApplied = true;
+                }
+            }
+        }
+
+        if (!$filterApplied) {
+            // optional filter by email when no user filter
+            if (request()->has('email')) {
+                $email = request()->get('email');
+                $query->where('email', $email);
+            }
         }
 
         $orders = $query->get();
@@ -116,12 +158,12 @@ class OrderController extends Controller
         $allowed = ['ORDERED','PREPARING','DILIVERED','CANCELLED'];
         $status = strtoupper($request->input('status'));
         if (!in_array($status, $allowed)) {
-            return response()->json(['error' => 'Invalid status'], 400);
+            return response()->json(['error' => 'Trạng thái không hợp lệ'], 400);
         }
 
         $order = Order::find($id);
         if (!$order) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return response()->json(['error' => 'Không tìm thấy đơn hàng'], 404);
         }
 
         $order->status = $status;

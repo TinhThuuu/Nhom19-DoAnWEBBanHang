@@ -230,7 +230,7 @@ const Header = () => {
                   <span>Khuyến mãi hot!!!</span>
                   <h2>Săn Táo <br />Giá Sốc</h2>
                   <p>Bảo hành 1 đổi 1 trong 12 tháng</p>
-                  <Link to={generatePath(ROUTERS.USER.PRODUCT, { id: 101 })} className='primary-btn'>Mua ngay</Link>
+                  <Link to={generatePath(ROUTERS.USER.PRODUCT, { id: 96 })} className='primary-btn'>Mua ngay</Link>
                 </div>
               </div>
             )}

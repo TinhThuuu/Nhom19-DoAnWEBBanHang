@@ -442,17 +442,6 @@ class ProductSeeder extends Seeder
               'category_id' => 4
             ],
             [
-              'name'=> 'OPPO Enco X Pro (bundle)',
-              'img'=> $img . '29.jpg',
-              'price'=> 2990000,
-              'inventory'=> rand(100, 650),
-              'description'=> $oppo,
-              'sort_description'=> 'Bundle OPPO Enco X Pro cùng điện thoại - tai nghe true wireless cao cấp.',
-              'facebook'=> '123',
-              'linkedin'=> '123',
-              'category_id' => 1
-            ],
-            [
               'name'=> 'Samsung Galaxy S23 FE',
               'img'=> $img . '30.jpg',
               'price'=> 12990000,
@@ -672,17 +661,7 @@ class ProductSeeder extends Seeder
               'linkedin'=> '123',
               'category_id' => 1
             ],
-            [
-              'name'=> 'Xiaomi Mi Band 8 (bundle)',
-              'img'=> $img . '51.jpg',
-              'price'=> 899000,
-              'inventory'=> rand(100, 650),
-              'description'=> $xiaomi,
-              'sort_description'=> 'Mi Band 8 - vòng đeo sức khỏe với nhiều tính năng, pin lâu.',
-              'facebook'=> '123',
-              'linkedin'=> '123',
-              'category_id' => 4
-            ],
+            
             [
               'name'=> 'iPhone 11 Pro Max (Used)',
               'img'=> $img . '52.jpg',

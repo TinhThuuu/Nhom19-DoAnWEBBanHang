@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cart',
+        'access_token',
+        'remember_token',
     ];
 
     /**
@@ -28,21 +31,22 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
     /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'cart' => 'array',
+    ];
+
+    // Consolidated hidden attributes
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'access_token',
+    ];
 }

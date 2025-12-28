@@ -1,5 +1,5 @@
 import { Quantity } from "component";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { formater } from "utils/formater";
 import Breadcrumb from "../theme/breadcrumb";
@@ -9,13 +9,12 @@ import { ROUTERS } from "utils/router";
 import { ReactSession } from "react-client-session";
 import { SESSION_KEYS } from "utils/constant";
 import useShoppingCart from "hooks/useShoppingCart";
+import { useSelector } from "react-redux";
 
 const ShoppingCartPage = () => {
   const navigate = useNavigate();
   const { removeCart } = useShoppingCart();
-  const [cart, setCart] = useState(
-    ReactSession.get(SESSION_KEYS.CART) || { products: [], totalPrice: 0, totalQuantity: 0 }
-  );
+  const cart = useSelector((s) => s.commonSlide.cart || { products: [], totalPrice: 0, totalQuantity: 0 });
 
   return (
     <>
@@ -47,7 +46,7 @@ const ShoppingCartPage = () => {
                       <Quantity product={product} initQuantity={quantity} hasAddToCart={false} />
                     </td>
                     <td>{formater(product.price * quantity)}</td>
-                    <td className="icon_close" onClick={() => setCart(removeCart(product.id))}>
+                    <td className="icon_close" onClick={() => removeCart(product.id)}>
                       <AiOutlineClose />
                     </td>
                   </tr>
